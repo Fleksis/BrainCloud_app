@@ -89,23 +89,20 @@ export default {
       const reader = new FileReader()
       reader.readAsDataURL(image)
       reader.onload = (e) => {
-        this.blobImage = image
+        this.userData.image = image
         this.imagePreview = e.target.result
       }
     },
     async register () {
-      const response = await fetch(this.blobImage)
-      const blob = await response.blob()
-      this.userData.image = new File([blob], 'image.jpg', {type: blob.type})
-
       const fd = new FormData()
       for (const [key, value] of Object.entries(this.userData)) { fd.append(key, value) }
 
       if (this.userData.password === this.userData.confirmPassword) {
         console.log(this.userData)
-        await this.$axios.post('/register', fd).then((res) => {
+        await this.$axios.post('/register', fd, {'Content-Type': 'multipart/form-data'
+        }).then((res) => {
           console.log(res.data)
-          this.$router.push('/auth/login')
+          // this.$router.push('/auth/login')
         }).catch((err) => {
           console.log(err)
         })
