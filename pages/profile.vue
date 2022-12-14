@@ -1,19 +1,13 @@
 <template>
   <div>
-    <h2>dasdklsjdkas</h2>
+    <h2>{{ this.$auth.$state.user }}</h2>
   </div>
 </template>
 
 <script>
 export default {
   name: 'ProfilePage',
-  layout: 'UserNavigationBar',
-  auth: true,
-  data () {
-    return {
-      user: this.$auth.$state.user,
-    }
-  }
+  auth: true
 }
 </script>
 
