@@ -68,6 +68,7 @@ export default {
         password: null,
         confirmPassword: null
       },
+      blobImage: null,
       incorrectPassword: false
     }
   },
@@ -88,11 +89,15 @@ export default {
       const reader = new FileReader()
       reader.readAsDataURL(image)
       reader.onload = (e) => {
-        this.userData.image = image
+        this.blobImage = image
         this.imagePreview = e.target.result
       }
     },
     async register () {
+      const response = await fetch(this.blobImage)
+      const blob = await response.blob()
+      this.userData.image = new File([blob], 'image.jpg', {type: blob.type})
+
       const fd = new FormData()
       for (const [key, value] of Object.entries(this.userData)) { fd.append(key, value) }
 
