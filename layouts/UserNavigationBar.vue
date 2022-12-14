@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="navigation-bar">
+    <div v-if="this.$auth.$state.user.data" id="navigation-bar">
       <div class="navigation-bar-horizontal">
         <div>
           <img class="navigation-bar-logo" src="~assets/svg/Brain.svg">
@@ -13,13 +13,13 @@
           <NuxtLink to="/">Admin Page</NuxtLink>
         </div>
         <div class="profile-button">
-          <img :src="user.image" @click="isOpenedProfile = !isOpenedProfile">
+          <img :src="this.$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">
           <div v-show="isOpenedProfile" class="user-profile-dropdown">
             <div class="profile-dropdown-data">
-              <img :src="user.image">
+              <img :src="this.$auth.$state.user.data.image">
               <div>
-                <h3>{{ user.name }}</h3>
-                <h4>{{ user.email }}</h4>
+                <h3>{{ this.$auth.$state.user.data.name }}</h3>
+                <h4>{{ this.$auth.$state.user.data.email }}</h4>
               </div>
             </div>
             <div class="profile-dropdown-buttons">
@@ -42,12 +42,11 @@ export default {
   auth: true,
   data () {
     return {
-      isOpenedProfile: false,
-      user: this.$auth.$state.user.data
+      isOpenedProfile: false
     }
   },
   mounted() {
-    console.log(this.user)
+    console.log(this.$auth.$state.user.data)
     if (!this.$store.state.auth.loggedIn) {
       this.$router.push('/auth/login')
     }
