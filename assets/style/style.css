@@ -1,0 +1,9 @@
+body {
+  background-color: #36363F;
+}
+
+@font-face {
+  font-family: 'Alata';
+  src: url('assets/fonts/Alata-regular.ttf');
+
+}
