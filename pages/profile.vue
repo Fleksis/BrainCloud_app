@@ -7,6 +7,7 @@
 <script>
 export default {
   name: 'ProfilePage',
+  layout: 'UserNavigationBar',
   auth: true
 }
 </script>
