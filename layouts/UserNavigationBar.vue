@@ -1,6 +1,36 @@
 <template>
   <div>
-    {{ this.$auth.$state.user }}
+    <h2 class="asdasd">{{ this.$auth.$state.user.data }}</h2>
+    <div v-if="this.$auth.$state.user.data" id="navigation-bar">
+      <div class="navigation-bar-horizontal">
+        <div>
+          <img class="navigation-bar-logo" src="~assets/svg/Brain.svg">
+          <h3>Brain Cloud</h3>
+        </div>
+        <div class="navigation-buttons">
+          <NuxtLink to="/profile">Profile</NuxtLink>
+          <NuxtLink to="/">Subscription</NuxtLink>
+          <NuxtLink to="/">About Us</NuxtLink>
+          <NuxtLink to="/">Admin Page</NuxtLink>
+        </div>
+<!--        <div class="profile-button">-->
+<!--          <img :src="this.$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">-->
+<!--          <div v-show="isOpenedProfile" class="user-profile-dropdown">-->
+<!--            <div class="profile-dropdown-data">-->
+<!--              <img :src="this.$auth.$state.user.data.image">-->
+<!--              <div>-->
+<!--                <h3>{{ this.$auth.$state.user.data.name }}</h3>-->
+<!--                <h4>{{ this.$auth.$state.user.data.email }}</h4>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="profile-dropdown-buttons">-->
+<!--              <NuxtLink to="/settings"><img src="~/assets/svg/Settings.svg">Account settings</NuxtLink>-->
+<!--              <a @click="logout()">Logout</a>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+      </div>
+    </div>
     <div>
       <Nuxt />
     </div>
@@ -32,6 +62,11 @@ export default {
 </script>
 
 <style scoped>
+
+.asdasd {
+  position: absolute;
+  top: 500px;
+}
 #navigation-bar {
   position: fixed;
   top: 0;
