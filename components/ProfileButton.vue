@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.$auth.$state.user.data.name" class="profile-button">
+  <div class="profile-button">
     <img :src="this.$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">
 <!--    <div v-show="isOpenedProfile" class="user-profile-dropdown">-->
 <!--      <div class="profile-dropdown-data">-->
