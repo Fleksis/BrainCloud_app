@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2 class="asdasd">{{ this.$auth.$state.user.data }}</h2>
     <div id="navigation-bar">
       <div class="navigation-bar-horizontal">
         <div>
@@ -26,7 +25,6 @@
 export default {
   name: 'UserNavigationBar',
   mounted() {
-    console.log(this.$auth.$state.user.data)
     if (!this.$store.state.auth.loggedIn) {
       this.$router.push('/auth/login')
     }
