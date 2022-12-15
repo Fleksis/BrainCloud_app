@@ -21,6 +21,7 @@
 <script>
 export default {
   name: "ProfileButton",
+  auth: true,
   data () {
     return {
       isOpenedProfile: false,
