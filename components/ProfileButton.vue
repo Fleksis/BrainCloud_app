@@ -9,7 +9,6 @@
           <h4>{{ this.$auth.$state.user.data.email }}</h4>
         </div>
       </div>
-      </div>
       <div class="profile-dropdown-buttons">
         <NuxtLink to="/settings"><img src="~/assets/svg/Settings.svg">Account settings</NuxtLink>
         <a @click="logout()">Logout</a>
