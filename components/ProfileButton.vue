@@ -1,6 +1,6 @@
 <template>
   <div class="profile-button">
-    <img :src="$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">
+    <img src="https://thispersondoesnotexist.com/" @click="isOpenedProfile = !isOpenedProfile">
     <div v-show="isOpenedProfile" class="user-profile-dropdown">
       <div class="profile-dropdown-data">
         <img :src="$auth.$state.user.data.image">
