@@ -1,19 +1,19 @@
 <template>
   <div class="profile-button">
     <img :src="this.$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">
-<!--    <div v-show="isOpenedProfile" class="user-profile-dropdown">-->
-<!--      <div class="profile-dropdown-data">-->
-<!--        <img :src="this.$auth.$state.user.data.image">-->
-<!--        <div>-->
-<!--          <h3>{{ this.$auth.$state.user.data.name }}</h3>-->
-<!--          <h4>{{ this.$auth.$state.user.data.email }}</h4>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="profile-dropdown-buttons">-->
-<!--        <NuxtLink to="/settings"><img src="~/assets/svg/Settings.svg">Account settings</NuxtLink>-->
-<!--        <a @click="logout()">Logout</a>-->
-<!--      </div>-->
-<!--    </div>-->
+    <div v-show="isOpenedProfile" class="user-profile-dropdown">
+      <div class="profile-dropdown-data">
+        <img :src="this.$auth.$state.user.data.image">
+        <div>
+          <h3>{{ this.$auth.$state.user.data.name }}</h3>
+          <h4>{{ this.$auth.$state.user.data.email }}</h4>
+        </div>
+      </div>
+      <div class="profile-dropdown-buttons">
+        <NuxtLink to="/settings"><img src="~/assets/svg/Settings.svg">Account settings</NuxtLink>
+        <a @click="logout()">Logout</a>
+      </div>
+    </div>
   </div>
 </template>
 
