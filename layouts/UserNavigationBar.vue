@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="asdasd">{{ this.$auth.$state.user.data }}</h2>
-    <div v-if="this.$auth.$state.user.data" id="navigation-bar">
+    <div id="navigation-bar">
       <div class="navigation-bar-horizontal">
         <div>
           <img class="navigation-bar-logo" src="~assets/svg/Brain.svg">
