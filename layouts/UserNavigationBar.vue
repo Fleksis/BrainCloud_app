@@ -7,12 +7,12 @@
           <img class="navigation-bar-logo" src="~assets/svg/Brain.svg">
           <h3>Brain Cloud</h3>
         </div>
-        <div class="navigation-buttons">
-          <NuxtLink to="/profile">Profile</NuxtLink>
-          <NuxtLink to="/">Subscription</NuxtLink>
-          <NuxtLink to="/">About Us</NuxtLink>
-          <NuxtLink to="/">Admin Page</NuxtLink>
-        </div>
+<!--        <div class="navigation-buttons">-->
+<!--          <NuxtLink to="/profile">Profile</NuxtLink>-->
+<!--          <NuxtLink to="/">Subscription</NuxtLink>-->
+<!--          <NuxtLink to="/">About Us</NuxtLink>-->
+<!--          <NuxtLink to="/">Admin Page</NuxtLink>-->
+<!--        </div>-->
 <!--        <div class="profile-button">-->
 <!--          <img :src="this.$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">-->
 <!--          <div v-show="isOpenedProfile" class="user-profile-dropdown">-->
