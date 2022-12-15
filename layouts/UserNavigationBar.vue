@@ -7,28 +7,13 @@
           <img class="navigation-bar-logo" src="~assets/svg/Brain.svg">
           <h3>Brain Cloud</h3>
         </div>
-<!--        <div class="navigation-buttons">-->
-<!--          <NuxtLink to="/profile">Profile</NuxtLink>-->
-<!--          <NuxtLink to="/">Subscription</NuxtLink>-->
-<!--          <NuxtLink to="/">About Us</NuxtLink>-->
-<!--          <NuxtLink to="/">Admin Page</NuxtLink>-->
-<!--        </div>-->
-<!--        <div class="profile-button">-->
-<!--          <img :src="this.$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">-->
-<!--          <div v-show="isOpenedProfile" class="user-profile-dropdown">-->
-<!--            <div class="profile-dropdown-data">-->
-<!--              <img :src="this.$auth.$state.user.data.image">-->
-<!--              <div>-->
-<!--                <h3>{{ this.$auth.$state.user.data.name }}</h3>-->
-<!--                <h4>{{ this.$auth.$state.user.data.email }}</h4>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="profile-dropdown-buttons">-->
-<!--              <NuxtLink to="/settings"><img src="~/assets/svg/Settings.svg">Account settings</NuxtLink>-->
-<!--              <a @click="logout()">Logout</a>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <div class="navigation-buttons">
+          <NuxtLink to="/profile">Profile</NuxtLink>
+          <NuxtLink to="/">Subscription</NuxtLink>
+          <NuxtLink to="/">About Us</NuxtLink>
+          <NuxtLink to="/">Admin Page</NuxtLink>
+        </div>
+        <ProfileButton />
       </div>
     </div>
     <div>
@@ -40,22 +25,10 @@
 <script>
 export default {
   name: 'UserNavigationBar',
-  auth: true,
-  data () {
-    return {
-      isOpenedProfile: false
-    }
-  },
   mounted() {
     console.log(this.$auth.$state.user.data)
     if (!this.$store.state.auth.loggedIn) {
       this.$router.push('/auth/login')
-    }
-  },
-  methods: {
-    async logout () {
-      await this.$auth.logout()
-      await this.$router.push('/auth/login')
     }
   }
 }
@@ -123,92 +96,5 @@ export default {
 
 .navigation-buttons > a:hover {
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-}
-
-.profile-button {
-  position: relative;
-  padding-right: 60px;
-}
-
-.profile-button > img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.user-profile-dropdown {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 37px;
-  left: -300px;
-  background-color: #2B2E32;
-  gap: 10px;
-  padding: 10px 50px;
-  border-radius: 15px;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  font-family: Alata;
-}
-
-.profile-dropdown-data {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.profile-dropdown-data > img {
-  width: 64px;
-  height: 64px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.profile-dropdown-data > div > h3 {
-  color: white;
-}
-
-.profile-dropdown-data > div > h4 {
-  color: #ffffff99;
-}
-
-.profile-dropdown-data > div > h3,
-.profile-dropdown-data > div > h4 {
-  font-weight: lighter;
-  margin: 0;
-}
-
-.profile-dropdown-buttons {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.profile-dropdown-buttons > div {
-  display: flex;
-}
-
-.profile-dropdown-buttons > a,
-.profile-dropdown-buttons > a {
-  display: flex;
-  gap: 5px;
-  padding: 10px 15px;
-  border-radius: 15px;
-  background-color: #5B5D62;
-  text-decoration: none;
-  color: white;
-  cursor: pointer;
-}
-
-@media only screen and (max-width: 900px) {
-  body {
-    color: red;
-  }
 }
 </style>
