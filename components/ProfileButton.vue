@@ -1,6 +1,6 @@
 <template>
   <div class="profile-button">
-    <img :src="$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">
+    <img :src="this.$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">
     <div v-show="isOpenedProfile" class="user-profile-dropdown">
       <h2>asdasdasdasd</h2>
 <!--      <div class="profile-dropdown-data">-->
@@ -23,8 +23,15 @@ export default {
   name: "ProfileButton",
   data () {
     return {
-      isOpenedProfile: false
+      isOpenedProfile: false,
+      user: this.$auth.$state.user.data
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      console.log(this.$auth.$state.user.data)
+      console.log(this.user)
+    }, 5000)
   },
   methods: {
     async logout () {
