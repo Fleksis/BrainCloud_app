@@ -1,12 +1,12 @@
 <template>
   <div class="profile-button">
-    <img :src="$auth.$state.user.image" @click="isOpenedProfile = !isOpenedProfile">
+    <img :src="$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">
     <div v-show="isOpenedProfile" class="user-profile-dropdown">
       <div class="profile-dropdown-data">
-        <img :src="$auth.$state.user.image">
+        <img :src="$auth.$state.user.data.image">
         <div>
-          <h3>{{ $auth.$state.user.name }}</h3>
-          <h4>{{ $auth.$state.user.email }}</h4>
+          <h3>{{ $auth.$state.user.data.name }}</h3>
+          <h4>{{ $auth.$state.user.data.email }}</h4>
         </div>
       </div>
       <div class="profile-dropdown-buttons">
