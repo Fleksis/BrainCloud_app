@@ -1,19 +1,18 @@
 <template>
   <div class="profile-button">
-    <img :src="this.$auth.$state.user.data.image" @click="isOpenedProfile = !isOpenedProfile">
+    <img :src="$auth.$state.user.image" @click="isOpenedProfile = !isOpenedProfile">
     <div v-show="isOpenedProfile" class="user-profile-dropdown">
-      <h2>asdasdasdasd</h2>
-<!--      <div class="profile-dropdown-data">-->
-<!--        <img :src="$auth.$state.user.data.image">-->
-<!--        <div>-->
-<!--          <h3>{{ $auth.$state.user.data.name }}</h3>-->
-<!--          <h4>{{ $auth.$state.user.data.email }}</h4>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="profile-dropdown-buttons">-->
-<!--        <NuxtLink to="/settings"><img src="~/assets/svg/Settings.svg">Account settings</NuxtLink>-->
-<!--        <a @click="logout()">Logout</a>-->
-<!--      </div>-->
+      <div class="profile-dropdown-data">
+        <img :src="$auth.$state.user.image">
+        <div>
+          <h3>{{ $auth.$state.user.name }}</h3>
+          <h4>{{ $auth.$state.user.email }}</h4>
+        </div>
+      </div>
+      <div class="profile-dropdown-buttons">
+        <NuxtLink to="/settings"><img src="~/assets/svg/Settings.svg">Account settings</NuxtLink>
+        <a @click="logout()">Logout</a>
+      </div>
     </div>
   </div>
 </template>
@@ -25,10 +24,11 @@ export default {
   data () {
     return {
       isOpenedProfile: false,
-      user: this.$auth.$state.user.data
+      user: this.$auth.$state.user
     }
   },
   mounted() {
+
     setTimeout(() => {
       console.log(this.$auth.$state.user.data)
       console.log(this.user)
