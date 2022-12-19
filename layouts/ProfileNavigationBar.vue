@@ -6,24 +6,18 @@
           <img class="navigation-bar-logo" src="~assets/svg/Brain.svg">
           <h3>Brain Cloud</h3>
         </div>
-        <div class="navigation-buttons">
-          <NuxtLink to="/profile">Profile</NuxtLink>
-          <NuxtLink to="/">Subscription</NuxtLink>
-          <NuxtLink to="/">About Us</NuxtLink>
-          <NuxtLink to="/">Admin Page</NuxtLink>
-        </div>
         <ProfileButton />
       </div>
     </div>
     <div>
-      <Nuxt />
+      <Nuxt style="margin-left: 15%"/>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'UserNavigationBar',
+  name: 'ProfileNavigationBar',
   mounted() {
     if (!this.$store.state.auth.loggedIn) {
       this.$router.push('/auth/login')
@@ -33,6 +27,7 @@ export default {
 </script>
 
 <style scoped>
+
 #navigation-bar {
   position: fixed;
   top: 0;
@@ -65,29 +60,5 @@ export default {
 .navigation-bar-logo {
   width: 64px;
   background-color: red;
-}
-
-.navigation-buttons {
-  margin-right: 130px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  justify-items: center;
-  gap: 50px;
-  color: white;
-}
-
-.navigation-buttons > a {
-  text-decoration: none;
-  color: white;
-  font-size: 24px;
-  font-family: Alata;
-  transition: 0.2s;
-  cursor: pointer;
-}
-
-.navigation-buttons > a:hover {
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
 }
 </style>
