@@ -27,13 +27,6 @@ export default {
       user: this.$auth.$state.user
     }
   },
-  mounted() {
-
-    setTimeout(() => {
-      console.log(this.$auth.$state.user.data)
-      console.log(this.user)
-    }, 5000)
-  },
   methods: {
     async logout () {
       await this.$auth.logout()
@@ -54,6 +47,7 @@ export default {
   height: 32px;
   border-radius: 50%;
   cursor: pointer;
+  object-fit: cover;
 }
 
 .user-profile-dropdown {

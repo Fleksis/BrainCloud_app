@@ -98,11 +98,10 @@ export default {
       for (const [key, value] of Object.entries(this.userData)) { fd.append(key, value) }
 
       if (this.userData.password === this.userData.confirmPassword) {
-        console.log(this.userData)
         await this.$axios.post('/register', fd, {'Content-Type': 'multipart/form-data'
         }).then((res) => {
           console.log(res.data)
-          // this.$router.push('/auth/login')
+          this.$router.push('/auth/login')
         }).catch((err) => {
           console.log(err)
         })
