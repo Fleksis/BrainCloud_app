@@ -91,7 +91,7 @@ export default {
         console.log(res.data)
         alert('Dati saglabāti')
       }).catch((e) => {
-        alert('ir dirsā bračiņ')
+        alert('Nav labi bračiņ')
       })
     }
   }

@@ -1,8 +1,6 @@
 <template>
   <div class="popup">
-    <div id="modal-title">
-      <h1>Create folder</h1>
-    </div>
+    <h1 class="modal-title">Edit folder</h1>
     <div>
       <div class="folder-input-container">
         <input v-model="folderData.title" class="title-input" placeholder=" ">
@@ -10,7 +8,7 @@
       </div>
       <div class="folder-form-buttons">
         <button @click="$emit('close-modal')">Cancel</button>
-        <button @click="createFolder()">Create</button>
+        <button @click="editFolder()">Create</button>
       </div>
     </div>
   </div>
@@ -18,23 +16,24 @@
 
 <script>
 export default {
-  name: 'AddFolder',
+  name: 'EditFolder',
+  props: ['folderId', 'title'],
   data () {
     return {
       folderData: {
-        'title': null,
+        'title': this.title,
         'user_id': this.$auth.$state.user.data.id
       }
     }
   },
   methods: {
-    async createFolder () {
-      await this.$axios.post('/folders', this.folderData).then((res) => {
-        console.log(res)
-        this.folderData.title = null
+    async editFolder () {
+      await this.$axios.post('/folders/' + this.folderId + '?_method=PUT', this.folderData).then((res) => {
+        console.log(res.data)
+        alert('Dati saglabāti')
         this.$emit('close-and-refresh-folders')
       }).catch((e) => {
-        console.log(e)
+        alert('Nav labi bračiņ')
       })
     }
   }
@@ -44,22 +43,17 @@ export default {
 <style scoped>
 .popup {
   z-index: 2;
-  position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  background-color: #2B2E32;
-  padding: 20px 50px;
+  gap: 10px;
+  background-color: #222222;
+  padding: 10px;
   border-radius: 15px;
   box-shadow: 0 4px 4px #202020;
-  top: 80px;
 }
 
-#modal-title {
-  text-align: left;
-}
-
-#modal-title > h1 {
+.modal-title {
+  text-align: center;
   font-family: Alata;
   color: #A3A6AA;
   margin: 0;
@@ -111,6 +105,7 @@ export default {
   font-size: 24px;
   font-family: Alata;
   color: #5b5d60;
+  user-select: none;
 }
 
 .folder-form-buttons {

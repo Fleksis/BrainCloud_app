@@ -1,6 +1,7 @@
 <template>
   <div class="delete-folder-container">
     <h2>{{ title }}</h2>
+    <p>Are you sure want to delete "{{ title }}" folder?</p>
     <div class="folder-form-buttons">
       <button @click="$emit('close-modal')">Cancel</button>
       <button @click="deleteFolder()">Delete</button>
@@ -26,17 +27,15 @@ export default {
 
 <style scoped>
 .delete-folder-container {
-  z-index: 1;
+  z-index: 5;
   display: flex;
   flex-direction: column;
-  position: absolute;
   gap: 20px;
   padding: 10px 10px;
-  top: 30px;
-  left: -15px;
   background-color: #222222;
   border-radius: 15px;
   box-shadow: 0 4px 4px #202020;
+  cursor: default;
 }
 
 .delete-folder-container > h2 {
@@ -45,6 +44,14 @@ export default {
   text-align: center;
   color: #A3A6AA;
   margin: 0;
+}
+
+.delete-folder-container > p {
+  margin: 0;
+  font-family: Alata;
+  font-weight: normal;
+  text-align: center;
+  color: #A3A6AA;
 }
 
 .delete-folder-container > div {

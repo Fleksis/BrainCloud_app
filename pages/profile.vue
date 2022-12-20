@@ -13,12 +13,20 @@
         <div>
           <h2 v-show="folders.length === 0">You do not have any folders</h2>
           <div v-for="(folder, index) in folders" :key="index" class="folders">
-            <div class="folder-icon" @click="deleteFolder(index)">
-              <img class="folder-icon" src="~assets/svg/Folder.svg">
-              <img class="folder-cross" src="~assets/svg/Cross.svg">
+            <div class="folder-button-container">
+              <div>
+                <div class="folder-icon" @click="updateFolder(folder.id, 'delete')">
+                  <img class="folder-icon" src="~assets/svg/Folder.svg">
+                  <img class="folder-cross" src="~assets/svg/Cross.svg">
+                </div>
+                <h3>{{ folder.title }}</h3>
+              </div>
+              <div @click="updateFolder(folder.id, 'edit')">
+                <img src="~assets/svg/Edit.svg">
+              </div>
             </div>
-            <h3>{{ folder.title }}</h3>
-            <DeleteFolder v-if="folder.deleteModal" @close-modal="deleteFolder(index)" :id="folder.id" :title="folder.title" @close-and-refresh-folders="userFolders()"/>
+            <DeleteFolder v-if="folder.deleteModal" @close-modal="updateFolder(folder.id, 'delete')" :id="folder.id" :title="folder.title" @close-and-refresh-folders="userFolders()" />
+            <EditFolder v-if="folder.editModal" @close-modal="updateFolder(folder.id, 'edit')" :folderId="folder.id" :title="folder.title" @close-and-refresh-folders="userFolders()" />
           </div>
         </div>
       </div>
@@ -30,10 +38,8 @@
 </template>
 
 <script>
-import DeleteFolder from "../components/DeleteFolder";
 export default {
   name: 'ProfilePage',
-  components: {DeleteFolder},
   layout: 'ProfileNavigationBar',
   auth: true,
   data () {
@@ -54,8 +60,21 @@ export default {
       })
       this.$forceUpdate();
     },
-    deleteFolder (index) {
-      this.folders[index].deleteModal = !this.folders[index].deleteModal
+    updateFolder (folderId, type) {
+      this.folders.map((folder) => {
+        if (folder.id === folderId && type === 'delete') {
+          folder.deleteModal = !folder.deleteModal
+          folder.editModal = false
+          return folder
+        } else if (folder.id === folderId && type === 'edit') {
+          folder.editModal = !folder.editModal
+          folder.deleteModal = false
+          return folder
+        }
+        folder.deleteModal = false
+        folder.editModal = false
+        return folder
+      })
       this.showAddFolderPopup = false
       this.$forceUpdate();
     },
@@ -66,6 +85,7 @@ export default {
         this.folders = res.data.data
         this.folders = this.folders.map((folder) => {
           folder.deleteModal = false
+          folder.editModal = false
           return folder
         })
         console.log(this.folders)
@@ -126,9 +146,9 @@ export default {
 .folders-container > div {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
   overflow-y: auto;
-  padding: 10px 5px 150px 25px;
+  padding: 10px 5px 150px 10px;
 }
 
 .folders-container > div > h2 {
@@ -146,39 +166,80 @@ export default {
   padding: 10px;
 }
 
-.folders {
+.folder-button-container {
   position: relative;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  width: fit-content;
+  width: 96%;
+  outline: 0px solid rgba(0, 0, 0, 0);
+  border-radius: 15px;
   user-select: none;
+  padding: 10px 0px 10px 10px;
+  transition: 0.3s;
 }
 
-.folders > .folder-icon {
+.folder-button-container:hover {
+  background-color: #222222;
+  outline: 1px solid #6C63FF;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.folder-button-container:active {
+  background-color: #111111;
+}
+
+.folder-icon {
   position: relative;
 }
 
 .folder-cross {
-  display: none;
+  opacity: 0;
   position: absolute;
   width: 13px;
   top: 7px;
   left: 7px;
   filter: invert(70%) sepia(100%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
-  transition: 0.5s;
+  transition: 0.3s;
 }
 
-.folders > div:hover > .folder-cross {
-  display: initial;
+.folder-icon:hover > .folder-cross {
+  opacity: 1;
 }
 
-.folders > h3 {
+.folder-button-container > div {
+  display: flex;
+  gap: 10px;
+}
+
+.folder-button-container > div > h3 {
   font-family: Alata;
   font-weight: normal;
   color: #A3A6AA;
   margin: 0;
+}
+
+.folder-button-container > div > img {
+  opacity: 0;
+  width: 18px;
+  filter: invert(71%) sepia(9%) saturate(133%) hue-rotate(175deg) brightness(93%) contrast(86%);
+  transition: 0.3s;
+  outline: 1px solid #6C63FF;
+  padding: 5px;
+  margin-right: 10px;
+  border-radius: 5px ;
+}
+
+.folder-button-container:hover > div > img {
+  opacity: 1;
+}
+
+.folder-button-container > div > img:hover {
+  outline: 3px solid #6C63FF;
+}
+.folder-button-container > div > img:active {
+  outline: 1px solid #6C63FF;
 }
 </style>
