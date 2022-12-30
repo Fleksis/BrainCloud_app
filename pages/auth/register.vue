@@ -1,57 +1,67 @@
 <template>
-  <div class="container">
-    <img class="image" src="~assets/svg/Safe.svg">
-    <form @submit.prevent class="form">
-      <div class="login-title">
-        <img src="~assets/svg/Brain.svg">
-        <h1>Brain Cloud</h1>
-      </div>
-      <div class="create-account">
-        <h1>Create an account</h1>
-      </div>
-      <div v-show="incorrectPassword">
-        <ul class="wrong-data">
-          <li><h4>Password does not match!</h4></li>
-        </ul>
-      </div>
-      <div class="profile-image">
-        <img v-show="imagePreview" class="image-preview" :src="imagePreview">
-        <label v-show="!imagePreview" class="upload-image">
-          <input type="file" accept="image/*" @change="uploadImage">
-        </label>
-        <div v-show="imagePreview">
-          <label class="upload-image-button">
+    <div class="container">
+      <img class="image" src="~assets/svg/Safe.svg">
+      <form @submit.prevent class="form">
+        <div class="login-title">
+          <img src="~assets/svg/Brain.svg">
+          <h1>Brain Cloud</h1>
+        </div>
+        <div class="create-account">
+          <h1>Create an account</h1>
+        </div>
+        <div v-show="incorrectPassword">
+          <ul class="wrong-data">
+            <li><h4>Password does not match!</h4></li>
+          </ul>
+        </div>
+        <div class="profile-image">
+          <img v-show="imagePreview" class="image-preview" :src="imagePreview">
+          <label v-show="!imagePreview" class="upload-image">
             <input type="file" accept="image/*" @change="uploadImage">
-            <p>Change avatar</p>
           </label>
+          <div v-show="imagePreview">
+            <label class="upload-image-button">
+              <input type="file" accept="image/*" @change="uploadImage">
+              <p>Change avatar</p>
+            </label>
+          </div>
         </div>
-      </div>
-      <div class="form-inputs">
-        <div class="form-name-group">
-          <input v-model="userData.name" class="form-input" placeholder=" " required>
-          <label class="form-label">Full name or username</label>
+        <div class="form-inputs">
+          <div class="form-name-group">
+            <input v-model="userData.name" class="form-input name" placeholder=" " required>
+            <label class="form-label">Full name or username</label>
+          </div>
+          <div class="form-name-group">
+            <input v-model="userData.email" class="form-input email" type="email" placeholder=" " required>
+            <label class="form-label">Email</label>
+          </div>
+          <div class="form-name-group">
+            <input v-model="userData.password" class="form-input password" type="password" placeholder=" " required>
+            <label class="form-label">Password</label>
+          </div>
+          <div class="form-name-group">
+            <input v-model="userData.confirmPassword" class="form-input password" type="password" placeholder=" " required>
+            <label class="form-label">Repeat password</label>
+          </div>
         </div>
-        <div class="form-name-group">
-          <input v-model="userData.email" class="form-input" type="email" placeholder=" " required>
-          <label class="form-label">Email</label>
-        </div>
-        <div class="form-name-group">
-          <input v-model="userData.password" class="form-input" type="password" placeholder=" " required>
-          <label class="form-label">Password</label>
-        </div>
-        <div class="form-name-group">
-          <input v-model="userData.confirmPassword" class="form-input" type="password" placeholder=" " required>
-          <label class="form-label">Repeat password</label>
-        </div>
-      </div>
-      <button @click="register()" class="register-button">Register</button>
-      <div>
+        <button @click="register()" class="register-button">Register</button>
+        <div>
         <span class="already">
           Already have an account? <NuxtLink class="login" to="/auth/login">Log In</NuxtLink>
         </span>
+        </div>
+      </form>
+      <div class="popup-container">
+        <Popup
+          v-for="(pop, index) in $store.state.popups"
+          :key="index"
+          :popupId="pop.popupId"
+          :popupType="pop.popupType"
+          :popupText="pop.popupText"
+          :popupShowTime="pop.popupShowTime + index / 2"
+        />
       </div>
-    </form>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -62,11 +72,11 @@ export default {
     return {
       imagePreview: null,
       userData: {
-        image: null,
-        name: null,
-        email: null,
-        password: null,
-        confirmPassword: null
+        image: '',
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
       },
       blobImage: null,
       incorrectPassword: false
@@ -98,12 +108,17 @@ export default {
       for (const [key, value] of Object.entries(this.userData)) { fd.append(key, value) }
 
       if (this.userData.password === this.userData.confirmPassword) {
-        await this.$axios.post('/register', fd, {'Content-Type': 'multipart/form-data'
-        }).then((res) => {
+        await this.$axios.post('/register', fd, {'Content-Type': 'multipart/form-data'}).then((res) => {
           console.log(res.data)
           this.$router.push('/auth/login')
-        }).catch((err) => {
-          console.log(err)
+        }).catch((e) => {
+          for (let error in e.response.data.errors) {
+            this.$store.commit('setPopup', {
+              text: e.response.data.errors[error][0],
+              type: 'danger',
+              seconds: 5
+            })
+          }
         })
       } else {
         this.incorrectPassword = true
@@ -117,6 +132,23 @@ export default {
 
 *{
   font-family: Alata;
+}
+
+.popup-container {
+  position: fixed;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: 50px;
+  min-width: 478px;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 50px;
+  width: fit-content;
+  scrollbar-color: #484C54 #00000000;
+  scrollbar-width: thin;
 }
 
 .container {

@@ -1,8 +1,8 @@
 <template>
-  <div class="delete-folder-container">
+  <div class="delete-file-container">
     <h2>{{ title }}</h2>
-    <p>Are you sure want to delete "{{ title }}" folder?</p>
-    <div class="folder-form-buttons">
+    <p>Are you sure want to delete "{{ title }}" file?</p>
+    <div class="file-form-buttons">
       <button @click="$emit('close-modal')">Cancel</button>
       <button @click="deleteFolder()">Delete</button>
     </div>
@@ -15,8 +15,8 @@ export default {
   props: ['id', 'title'],
   methods: {
     async deleteFolder () {
-      await this.$axios.delete('/folders/' + this.id).then((res) => {
-        this.$emit('close-and-refresh', 'Folder ' + this.title + ' successfully deleted', 'success')
+      await this.$axios.delete('/files/' + this.id).then((res) => {
+        this.$emit('close-and-refresh', 'file ' + this.title + ' successfully deleted', 'success')
       }).catch((e) => {
         this.$emit('close-and-refresh', 'Something went wrong, try again later', 'danger')
       })
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style scoped>
-.delete-folder-container {
+.delete-file-container {
   z-index: 5;
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@ export default {
   cursor: default;
 }
 
-.delete-folder-container > h2 {
+.delete-file-container > h2 {
   font-family: Alata;
   font-weight: normal;
   text-align: center;
@@ -46,7 +46,7 @@ export default {
   margin: 0;
 }
 
-.delete-folder-container > p {
+.delete-file-container > p {
   margin: 0;
   font-family: Alata;
   font-weight: normal;
@@ -54,18 +54,18 @@ export default {
   color: #A3A6AA;
 }
 
-.delete-folder-container > div {
+.delete-file-container > div {
   display: flex;
   justify-content: space-between;
 }
 
-.folder-form-buttons {
+.file-form-buttons {
   display: flex;
   justify-content: space-between;
   gap: 30px;
 }
 
-.folder-form-buttons > button {
+.file-form-buttons > button {
   background-color:#484c54;
   border-radius: 15px;
   color: white;
@@ -78,7 +78,7 @@ export default {
   transition: .2s;
 }
 
-.folder-form-buttons > button:hover {
+.file-form-buttons > button:hover {
   background-color: #2b2e32;
   outline: 2px solid #6C63FF;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));

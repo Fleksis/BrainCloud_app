@@ -1,31 +1,43 @@
 <template>
-  <main class="main">
-    <section class="login">
-      <form @submit.prevent="login()" class="login-container">
-        <div class="logo">
-          <img src="~assets/svg/Brain.svg" alt="logo">
-          <h3 class="brain-cloud">BrainCloud</h3>
-        </div>
-        <span class="sign-in">Sign in</span>
-        <div class="input-container">
-          <input v-model="userData.email" class="login-input" type="text" placeholder=" ">
-          <label class="login-label">Email</label>
-        </div>
-        <div class="input-container">
-          <input v-model="userData.password" class="login-input" type="password" placeholder=" ">
-          <label class="login-label">Password</label>
-        </div>
-        <div class="login-other-options">
-          <NuxtLink to="/auth/register">Create account</NuxtLink>
-          <a>Forgot password</a>
-        </div>
-        <button class="login-button">Login</button>
-      </form>
-    </section>
-    <aside class="fancy-aside">
-      <img class="svg-element" src="~assets/svg/login_page_photo.svg">
-    </aside>
-  </main>
+  <div>
+    <main class="main">
+      <section class="login">
+        <form @submit.prevent="login()" class="login-container">
+          <div class="logo">
+            <img src="~assets/svg/Brain.svg" alt="logo">
+            <h3 class="brain-cloud">BrainCloud</h3>
+          </div>
+          <span class="sign-in">Sign in</span>
+          <div class="input-container">
+            <input v-model="userData.email" class="login-input" type="text" placeholder=" ">
+            <label class="login-label">Email</label>
+          </div>
+          <div class="input-container">
+            <input v-model="userData.password" class="login-input" type="password" placeholder=" ">
+            <label class="login-label">Password</label>
+          </div>
+          <div class="login-other-options">
+            <NuxtLink to="/auth/register">Create account</NuxtLink>
+            <a>Forgot password</a>
+          </div>
+          <button class="login-button">Login</button>
+        </form>
+      </section>
+      <aside class="fancy-aside">
+        <img class="svg-element" src="~assets/svg/login_page_photo.svg">
+      </aside>
+    </main>
+    <div class="popup-container">
+      <Popup
+        v-for="(pop, index) in $store.state.popups"
+        :key="index"
+        :popupId="pop.popupId"
+        :popupType="pop.popupType"
+        :popupText="pop.popupText"
+        :popupShowTime="pop.popupShowTime + index / 2"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -48,9 +60,13 @@ export default {
         this.$auth.setUser(res.data.user)
         setTimeout(() => {
           location.reload()
-        },1000)
+        },500)
       }).catch((err) => {
-        console.log(err)
+        this.$store.commit('setPopup', {
+          text: 'Incorrect password or email',
+          type: 'danger',
+          seconds: 5
+        })
       })
     }
   }
@@ -65,6 +81,20 @@ export default {
   box-sizing: border-box;
   font-family: 'Alata';
   color: white;
+}
+
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 50px;
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 50px;
+  width: fit-content;
+  scrollbar-color: #484C54 #00000000;
+  scrollbar-width: thin;
 }
 
 .main {

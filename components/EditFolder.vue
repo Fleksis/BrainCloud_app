@@ -8,7 +8,7 @@
       </div>
       <div class="folder-form-buttons">
         <button @click="$emit('close-modal')">Cancel</button>
-        <button @click="editFolder()">Create</button>
+        <button @click="editFolder()">Change</button>
       </div>
     </div>
   </div>
@@ -29,11 +29,9 @@ export default {
   methods: {
     async editFolder () {
       await this.$axios.post('/folders/' + this.folderId + '?_method=PUT', this.folderData).then((res) => {
-        console.log(res.data)
-        alert('Dati saglabāti')
-        this.$emit('close-and-refresh-folders')
+        this.$emit('close-and-refresh', 'Folder name successfully changed to ' + this.folderData.title, 'success')
       }).catch((e) => {
-        alert('Nav labi bračiņ')
+        this.$emit('close-and-refresh', 'Folder name is the same ' + this.folderData.title, 'danger')
       })
     }
   }

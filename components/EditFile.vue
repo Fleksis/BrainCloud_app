@@ -1,8 +1,6 @@
 <template>
   <div class="popup">
-    <div id="modal-title">
-      <h1>Create folder</h1>
-    </div>
+    <h1 class="modal-title">Edit folder</h1>
     <div>
       <div class="folder-input-container">
         <input v-model="folderData.title" class="title-input" placeholder=" ">
@@ -10,7 +8,7 @@
       </div>
       <div class="folder-form-buttons">
         <button @click="$emit('close-modal')">Cancel</button>
-        <button @click="createFolder()">Create</button>
+        <button @click="editFolder()">Change</button>
       </div>
     </div>
   </div>
@@ -18,24 +16,22 @@
 
 <script>
 export default {
-  name: 'AddFolder',
+  name: 'EditFile',
+  props: ['folderId', 'title', 'description'],
   data () {
     return {
       folderData: {
-        'title': null,
+        'title': this.title,
         'user_id': this.$auth.$state.user.data.id
       }
     }
   },
   methods: {
-    async createFolder () {
-      await this.$axios.post('/folders', this.folderData).then((res) => {
-        console.log(res)
-        let title = this.folderData.title
-        this.folderData.title = null
-        this.$emit('close-and-refresh', 'Folder ' + title + ' successfully created', 'success')
+    async editFolder () {
+      await this.$axios.post('/folders/' + this.folderId + '?_method=PUT', this.folderData).then((res) => {
+        this.$emit('close-and-refresh', 'Folder name successfully changed to ' + this.folderData.title, 'success')
       }).catch((e) => {
-        this.$emit('close-and-refresh', 'Folder with name ' + this.folderData.title + ' already exist', 'danger')
+        this.$emit('close-and-refresh', 'Folder name is the same ' + this.folderData.title, 'danger')
       })
     }
   }
@@ -45,22 +41,17 @@ export default {
 <style scoped>
 .popup {
   z-index: 2;
-  position: absolute;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  background-color: #2B2E32;
-  padding: 20px 50px;
+  gap: 10px;
+  background-color: #222222;
+  padding: 10px;
   border-radius: 15px;
   box-shadow: 0 4px 4px #202020;
-  top: 80px;
 }
 
-#modal-title {
-  text-align: left;
-}
-
-#modal-title > h1 {
+.modal-title {
+  text-align: center;
   font-family: Alata;
   color: #A3A6AA;
   margin: 0;
@@ -112,6 +103,7 @@ export default {
   font-size: 24px;
   font-family: Alata;
   color: #5b5d60;
+  user-select: none;
 }
 
 .folder-form-buttons {
