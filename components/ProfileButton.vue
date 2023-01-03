@@ -57,7 +57,7 @@ export default {
   align-items: center;
   position: absolute;
   top: 37px;
-  left: -300px;
+  left: -250px;
   background-color: #2B2E32;
   gap: 10px;
   padding: 10px 50px;
