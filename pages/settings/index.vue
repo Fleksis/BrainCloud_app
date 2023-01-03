@@ -73,6 +73,7 @@ body {
   width: 120px;
   height: 120px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .main_info > div > h2, .main_info > div > h4 {

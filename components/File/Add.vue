@@ -15,15 +15,15 @@
           @dragover="dragDropZone"
           @dragleave="leaveDropZone"
         >
-          <img src="assets/svg/Add.svg" class="arrow-down" :style="{ color: dropZoneColor, transition: 0.3+'s' }" />
-          <p>Ievelciet failu</p>
-          <p>vai</p>
+          <img src="../../assets/svg/Add.svg" class="arrow-down" :style="{ color: dropZoneColor, transition: 0.3+'s' }" />
+          <p>Drag file here</p>
+          <p>or</p>
           <label class="upload-image">
-            Lejupielādēt failu
+            Upload file
             <input type="file" @change="uploadImage">
           </label>
         </div>
-        <a v-show="!displayDropZone" class="change-photo" @click="displayDropZone=true; fileName = ''">Nomainīt portretu</a>
+        <a v-show="!displayDropZone" class="change-photo" @click="displayDropZone=true; fileName = ''">Change file</a>
       </div>
       <div>
         <div class="folder-input-container">
@@ -50,9 +50,9 @@ export default {
   data () {
     return {
       folderData: {
-        'title': null,
-        'description': null,
-        'file': null,
+        'title': '',
+        'description': '',
+        'file': '',
         'user_id': this.$auth.$state.user.data.id,
       },
       previewImage: null,
@@ -88,6 +88,7 @@ export default {
     },
     async uploadFile () {
       this.folderData['folder_id'] = this.folders[this.folder_id].id
+      console.log(this.folderData)
       const fd = new FormData()
       for (const [key, value] of Object.entries(this.folderData)) { fd.append(key, value) }
 
@@ -99,7 +100,10 @@ export default {
         this.fileName = null
         this.$emit('close-and-refresh', 'File ' + title + ' successfully uploaded', 'success')
       }).catch((e) => {
-        this.$emit('close-and-refresh', 'Something went wrong, or input fields are not filled', 'danger')
+        console.log(e.response.data)
+        for (let error in e.response.data.errors) {
+          this.$emit('close-and-refresh', e.response.data.errors[error][0], 'danger')
+        }
       })
     }
   }
@@ -264,6 +268,8 @@ export default {
   font-size: 24px;
   font-family: Alata;
   color: #5b5d60;
+  user-select: none;
+  pointer-events: none;
 }
 
 .folder-form-buttons {

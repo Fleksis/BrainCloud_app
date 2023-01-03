@@ -200,6 +200,8 @@ export default {
   left: 0;
   transition: 0.3s;
   font-size: 16px;
+  user-select: none;
+  pointer-events: none;
 }
 
 .login-other-options {

@@ -303,6 +303,8 @@ export default {
   left: 0;
   pointer-events: none;
   transition: 0.3s;
+  user-select: none;
+  pointer-events: none;
 }
 
 .register-button {

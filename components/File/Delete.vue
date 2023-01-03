@@ -18,7 +18,7 @@ export default {
       await this.$axios.delete('/files/' + this.id).then((res) => {
         this.$emit('close-and-refresh', 'file ' + this.title + ' successfully deleted', 'success')
       }).catch((e) => {
-        this.$emit('close-and-refresh', 'Something went wrong, try again later', 'danger')
+        this.$emit('close-and-refresh', e.response.message, 'danger')
       })
     }
   }

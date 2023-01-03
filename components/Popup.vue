@@ -1,7 +1,7 @@
 <script src="../store/index.js" />
 <template>
   <transition name="bounce">
-    <div class="popup" v-if="show" :class="'popup-' + popupType ">
+    <div ref="popupss" class="popup" v-if="show" :class="'popup-' + popupType ">
       <p>{{ popupText }}</p>
       <img
         class="close-popup"
@@ -53,6 +53,7 @@ p, .close-popup {
 
 .popup > p {
   color: white;
+  font-family: Alata;
 }
 
 .popup > img {

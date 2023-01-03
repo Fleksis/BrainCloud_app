@@ -10,12 +10,12 @@
           <img src="~assets/svg/Add.svg">
           <span>File</span>
         </div>
-        <AddFolder
+        <FolderAdd
           v-show="showAddFolderPopup"
           @close-modal="showAddFolderPopup = false"
           @close-and-refresh="(title, type) => updatedFolderNotification(title, type, 'folders')"
         />
-        <AddFile
+        <FileAdd
           v-show="showFileUploadPopup"
           :folder_id="this.currentFolder"
           :folders="this.folders"
@@ -40,14 +40,14 @@
                 <img src="~assets/svg/Edit.svg">
               </div>
             </div>
-            <DeleteFolder
+            <FolderDelete
               v-if="folder.deleteModal"
               @close-modal="updateFolder(folder.id, 'delete')"
               :id="folder.id"
               :title="folder.title"
               @close-and-refresh="(title, type) => updatedFolderNotification(title, type, 'folders')"
             />
-            <EditFolder
+            <FolderEdit
               v-if="folder.editModal"
               @close-modal="updateFolder(folder.id, 'edit')"
               :folderId="folder.id" :title="folder.title"
@@ -56,27 +56,36 @@
         </div>
       </div>
     </div>
-    <div ref="fileContainer" class="file-container">
-      <div @click="openPreview(file)" class="file" v-for="(file, index) in files" :key="index">
-        <div>
-          <img :src="require(`@/assets/svg/file_type/${file.icon}`)">
-        </div>
-        <p>{{ file.title }}</p>
+    <main class="main-profile-container">
+      <div ref="profileNavigationBar" class="profile-navigation-bar">
+        <NuxtLink to="/profile">Profile</NuxtLink>
+        <NuxtLink to="/profile">Subscription</NuxtLink>
+        <NuxtLink to="/profile">About Us</NuxtLink>
+        <NuxtLink to="/admin/users">Admin Page</NuxtLink>
+        <NuxtLink to="/profile">Help</NuxtLink>
       </div>
-<!--      <h2>{{ this.$auth.$state.user }}</h2>-->
-    </div>
+      <div ref="fileContainer" class="file-container">
+        <div @click="openPreview(file)" class="file" v-for="(file, index) in files" :key="index">
+          <div>
+            <img :src="require(`@/assets/svg/file_type/${file.icon}`)">
+          </div>
+          <p>{{ file.title }}</p>
+        </div>
+      </div>
+    </main>
     <div v-if="showFilePreview" class="file-preview">
       <div class="file-preview-title">
         <div>
           <img src="~assets/svg/file_type/Unknown.svg">
           <h1>File preview</h1>
         </div>
-        <div class="close-preview" @click="$refs.fileContainer.style.width = 'calc(100%)'; showFilePreview = false">
+        <div class="close-preview" @click="closePreview()">
           <img src="~assets/svg/Cross.svg">
         </div>
       </div>
       <div class="file-preview-thumbnail">
-        <img :src="require(`@/assets/svg/file_type/${currentFile.icon}`)">
+        <img v-if="currentFile.imagePreview" :src="currentFile.imagePreview">
+        <img v-else :src="require(`@/assets/svg/file_type/${currentFile.icon}`)">
       </div>
       <div class="file-preview-description">
         <div>
@@ -88,31 +97,31 @@
           <p>{{ currentFile.description }}</p>
         </div>
       </div>
-      <DeleteFile
+      <FileDelete
         class="delete-file-container"
         v-show="fileDeleteModal"
         @close-modal="fileDeleteModal = false"
-        :id="currentFile.id"
-        :title="currentFile.title"
+        :id="currentFile.id" :title="currentFile.title"
         @close-and-refresh="(title, type) => updatedFolderNotification(title, type, 'files')"
       />
-      <EditFile
+      <FileEdit
+        class="edit-file-container"
         v-show="fileEditModal"
         @close-modal="fileEditModal = false"
-        :folderId="currentFile.id" :title="currentFile.title"
-        @close-and-refresh="(title, type) => updatedFolderNotification(title, type, 'files')"
+        :fileId="currentFile.id" :title="currentFile.title" :description="currentFile.description"
+        @close-and-refresh="(title, type) => updatedFolderNotification(title, type, 'editFiles')"
       />
       <div class="file-preview-buttons">
         <div><a :href="currentFile.file" target="_blank">Download</a></div>
-        <div @click="fileEditModal = !fileEditModal">
+        <div @click="fileEditModal = !fileEditModal; fileDeleteModal = false">
           <a>Rename</a>
         </div>
-        <div @click="fileDeleteModal = !fileDeleteModal">
+        <div @click="fileDeleteModal = !fileDeleteModal; fileEditModal = false">
           <a>Delete</a>
         </div>
       </div>
     </div>
-    <div ref="popup" class="popup-container" style="margin-right: 200px">
+    <div ref="popup" class="popup-container">
       <Popup
         v-for="(pop, index) in $store.state.popups"
         :key="index"
@@ -188,21 +197,23 @@ export default {
     updatedFolderNotification(title, type, update) {
       if (update === 'folders') {
         this.userFolders()
+      } else if (type === 'success' && update === 'files') {
+        this.updateFiles()
+        this.deleteModal = false
+        this.fileDeleteModal = false
+      } else if (type === 'success' && update === 'editFiles') {
+        this.updateFiles()
+        this.fileEditModal = false
       }
       this.$refs.popup.style.zIndex = '5'
       this.$store.commit('setPopup', {
         text: title,
         type: type,
-        seconds: 10
+        seconds: 5
       })
       setTimeout(() => {
         this.$refs.popup.style.zIndex = '-1'
-      }, 11000)
-
-      if (type === 'success' && update === 'files') {
-        this.updateFiles()
-        this.deleteModal = false
-      }
+      }, 6000)
     },
     async userFolders () {
       this.showAddFolderPopup = false
@@ -254,24 +265,31 @@ export default {
           switch (true) {
             case ['zip', 'rar', '7z'].includes(file.type):
               file.icon = 'Archive.svg'
+              file.imagePreview = null
               break
             case ['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(file.type):
               file.icon = 'Image.svg'
+              file.imagePreview = file.file
               break
             case ['mp3'].includes(file.type):
               file.icon = 'Audio.svg'
+              file.imagePreview = null
               break
             case ['mp4', 'mkv'].includes(file.type):
               file.icon = 'Video.svg'
+              file.imagePreview = null
               break
             case ['doc', 'docx', 'rtf', 'xls', 'xlsx', 'ppt', 'pptx', 'accdb', '', ''].includes(file.type):
               file.icon = 'Document.svg'
+              file.imagePreview = null
               break
             case ['pdf'].includes(file.type):
               file.icon = 'Pdf.svg'
+              file.imagePreview = null
               break
             default:
               file.icon = 'Unknown.svg'
+              file.imagePreview = null
           }
           return file
         })
@@ -283,9 +301,17 @@ export default {
     openPreview (file) {
       this.currentFile = file
       this.deleteModal = false
+      this.fileEditModal = false
+      this.fileDeleteModal = false
       console.log(this.currentFile.deleteModal + ' open')
       this.showFilePreview = true
       this.$refs.fileContainer.style.width = 'calc(100% - 740px)'
+      this.$refs.profileNavigationBar.style.width = 'calc(100% - 740px)'
+    },
+    closePreview() {
+      this.$refs.fileContainer.style.width = 'initial'
+      this.$refs.profileNavigationBar.style.width = 'initial'
+      this.showFilePreview = false
     }
   }
 }
@@ -423,6 +449,7 @@ export default {
   user-select: none;
   padding: 10px 0px 10px 10px;
   transition: 0.3s;
+  word-break: break-word;
 }
 
 .folder-button-container:hover{
@@ -501,9 +528,36 @@ export default {
   outline: 1px solid #6C63FF;
 }
 
+.main-profile-container {
+  width: 100%;
+}
+
+.profile-navigation-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 50px;
+  padding-left: 50px;
+  height: 50px;
+  margin-top: 50px;
+  margin-left: 300px;
+  background-color: #5B5D62;
+}
+
+.profile-navigation-bar > a {
+  font-family: Alata;
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.profile-navigation-bar > a:hover {
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
 .file-container {
   display: grid;
-  width: 100%;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 50px;
   margin-left: 300px;
@@ -609,6 +663,7 @@ export default {
   padding-top: 20px;
   flex-grow: 0.8;
   padding-bottom: 20px;
+  word-break: break-word;
 }
 
 .file-preview-description > div > h2 {
@@ -644,6 +699,14 @@ export default {
 }
 
 .delete-file-container {
+  position: absolute;
+  bottom: 175px;
+  right: 10px;
+  width: 300px !important;
+  border-bottom: none !important;
+}
+
+.edit-file-container {
   position: absolute;
   bottom: 175px;
   right: 10px;
