@@ -4,6 +4,8 @@
         <div class="welcome-section">
             <img src="~assets/svg/contact_ussvg.svg">
         </div>
+        <div class="contactForm"><contactWelcome></contactWelcome></div>
+  
         <div class="container">
             <img class="first" src="~assets/svg/svg1.svg">
             <img class="second" src="~assets/svg/svg1.svg">
@@ -35,6 +37,17 @@ img {
     height: 80vh;
 }
 
+.contactForm{
+    display: flex;
+    width: 100%;
+    justify-content: end;
+
+}
+.contactForm > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
 .first{
     width: 351px;
     height: 359px;
@@ -62,4 +75,5 @@ img {
     justify-content: space-between;
     margin-top: 90px;
 }
+
 </style>
