@@ -21,5 +21,45 @@ export default {
 </script>
 
 <style scoped>
+* {
+    margin: 0;
+    padding: 0;
+}
+img {
+    width: 500px;
+    height: 250px;
+}
 
+.container {
+    position: relative;
+    height: 80vh;
+}
+
+.first{
+    width: 351px;
+    height: 359px;
+    position: absolute;
+    left: 15%;
+    top: 35%;
+
+}
+.second{
+    width: 523px;
+    height: 535px;
+    position: absolute;
+    left: 45%;
+    top: 2%;
+}
+.third{
+    width: 351px;
+    height: 359px;
+    position: absolute;
+    left: 75%;
+    top: 50%;
+}
+.welcome-section{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 90px;
+}
 </style>
