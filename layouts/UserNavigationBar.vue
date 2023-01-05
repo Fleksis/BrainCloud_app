@@ -9,7 +9,7 @@
         <div class="navigation-buttons">
           <NuxtLink to="/profile">Profile</NuxtLink>
           <NuxtLink to="/">Subscription</NuxtLink>
-          <NuxtLink to="/">About Us</NuxtLink>
+          <NuxtLink to="/contact_us">About Us</NuxtLink>
           <NuxtLink to="/">Admin Page</NuxtLink>
         </div>
         <ProfileButton />
