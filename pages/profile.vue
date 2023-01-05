@@ -320,7 +320,7 @@ export default {
 <style scoped>
 .popup-container {
   position: fixed;
-  right: 0;
+  left: 0;
   bottom: 0;
   display: flex;
   flex-direction: column;
@@ -334,6 +334,7 @@ export default {
   scrollbar-color: #484C54 #00000000;
   scrollbar-width: thin;
   z-index: -5;
+  pointer-events: none;
 }
 
 .body-container {

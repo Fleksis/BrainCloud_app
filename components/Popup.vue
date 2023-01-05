@@ -58,6 +58,7 @@ p, .close-popup {
 
 .popup > img {
   transition: 0.2s;
+  pointer-events: initial !important;
 }
 
 .popup > img:hover {
