@@ -8,9 +8,10 @@
         </div>
         <div class="navigation-buttons">
           <NuxtLink to="/profile">Profile</NuxtLink>
-          <NuxtLink to="/">Subscription</NuxtLink>
+          <NuxtLink to="/profile">Subscription</NuxtLink>
           <NuxtLink to="/contact_us">About Us</NuxtLink>
-          <NuxtLink to="/">Admin Page</NuxtLink>
+          <NuxtLink to="/admin/users">Admin Page</NuxtLink>
+          <NuxtLink to="/profile">Help</NuxtLink>
         </div>
         <ProfileButton />
       </div>
@@ -38,6 +39,7 @@ export default {
   top: 0;
   left: 0;
   right: 0;
+  z-index: 1;
 }
 
 .navigation-bar-horizontal {

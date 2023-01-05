@@ -31,10 +31,11 @@ export default {
     async createFolder () {
       await this.$axios.post('/folders', this.folderData).then((res) => {
         console.log(res)
+        let title = this.folderData.title
         this.folderData.title = null
-        this.$emit('close-and-refresh-folders')
+        this.$emit('close-and-refresh', 'Folder ' + title + ' successfully created', 'success')
       }).catch((e) => {
-        console.log(e)
+        this.$emit('close-and-refresh', e.response.data.message, 'danger')
       })
     }
   }
@@ -111,6 +112,8 @@ export default {
   font-size: 24px;
   font-family: Alata;
   color: #5b5d60;
+  user-select: none;
+  pointer-events: none;
 }
 
 .folder-form-buttons {

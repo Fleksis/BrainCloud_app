@@ -24,12 +24,14 @@
             </div>
             <div class="input-container">
               <input v-model="userData.password" class="profile-input" type="password" placeholder=" ">
-              <label class="profile-label">Password</label>
+              <label class="profile-label">New password</label>
             </div>
           </div>
         </div>
         <div class="btn-field">
-          <button type="button">Cancel</button>
+          <NuxtLink to="/profile">
+            <p>Cancel</p>
+          </NuxtLink>
           <button type="button" @click="updateUser()">Save</button>
         </div>
       </form>
@@ -86,10 +88,10 @@ export default {
     async updateUser () {
       const fd = new FormData()
       for (const [key, value] of Object.entries(this.userData)) { fd.append(key, value) }
-
       await this.$axios.post('/users/' + this.user.id + '?_method=PUT', fd).then((res) => {
-        console.log(res.data)
         alert('Dati saglabāti')
+        this.$auth.setUser(res.data)
+        this.$router.push('/profile')
       }).catch((e) => {
         alert('Nav labi bračiņ')
       })
@@ -211,7 +213,20 @@ html {
 
 
 }
-.btn-field button {
+
+.btn-field > a > p {
+  margin: 0;
+}
+
+.btn-field > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-field > button,
+.btn-field > a {
+  text-decoration: none;
   flex-basis: 25%;
   background: #5b5d60;
   height: 40px;
@@ -222,7 +237,8 @@ html {
   font-size: 17px;
 }
 
-.btn-field button:hover{
+.btn-field button:hover,
+.btn-field > a:hover {
   background: transparent;
   transition: .4s;
   border: 3px solid #6C63FF;

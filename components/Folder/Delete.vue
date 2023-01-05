@@ -11,14 +11,14 @@
 
 <script>
 export default {
-  name: "DeleteFolder",
+  name: 'DeleteFile',
   props: ['id', 'title'],
   methods: {
     async deleteFolder () {
       await this.$axios.delete('/folders/' + this.id).then((res) => {
-        this.$emit('close-and-refresh-folders')
+        this.$emit('close-and-refresh', 'Folder ' + this.title + ' successfully deleted', 'success')
       }).catch((e) => {
-        console.log(e)
+        this.$emit('close-and-refresh', 'Something went wrong, try again later', 'danger')
       })
     }
   }

@@ -4,8 +4,7 @@
 
 <script>
 export default {
-  name: 'IndexPage',
-  auth: true
+  name: 'IndexPage'
 }
 </script>
 
