@@ -49,10 +49,10 @@ export default {
       imagePreview: false,
       user: this.$auth.$state.user.data,
       userData: {
-        image: null,
-        name: null,
-        email: null,
-        password: null
+        image: '',
+        name: '',
+        email: '',
+        password: ''
       },
     }
   },

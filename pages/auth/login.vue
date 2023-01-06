@@ -46,8 +46,8 @@ export default {
   data () {
     return {
       userData: {
-        email: null,
-        password: null
+        email: '',
+        password: ''
       },
     }
   },
