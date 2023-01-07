@@ -1,5 +1,4 @@
 <template>
-    
     <div>
         <div class="welcome-section">
             <img src="~assets/svg/svg7.svg">
@@ -11,7 +10,6 @@
             <Footer></Footer>
         </div>
     </div>
-
 </template>
 
 <script>
