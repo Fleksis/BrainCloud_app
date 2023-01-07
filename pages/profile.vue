@@ -59,10 +59,16 @@
     <main class="main-profile-container">
       <div ref="profileNavigationBar" class="profile-navigation-bar">
         <NuxtLink to="/profile">Profile</NuxtLink>
-        <NuxtLink to="/profile">Subscription</NuxtLink>
+        <NuxtLink to="/upgrade_plans">Subscription</NuxtLink>
         <NuxtLink to="/contact_us">About Us</NuxtLink>
         <NuxtLink to="/admin/users">Admin Page</NuxtLink>
         <NuxtLink to="/profile">Help</NuxtLink>
+      </div>
+      <div class="search-padding">
+        <div class="search-container">
+          <img src="~assets/svg/Search.svg">
+          <input v-model="searchInput" @input="getFilteredFiles()" type="text" placeholder="Search..">
+        </div>
       </div>
       <div ref="fileContainer" class="file-container">
         <div @click="openPreview(file)" class="file" v-for="(file, index) in files" :key="index">
@@ -143,6 +149,8 @@ export default {
     return {
       folders: [],
       files: [],
+      searchInput: '',
+      searchDelayed: false,
       showAddFolderPopup: false,
       showFileUploadPopup: false,
       showFilePreview: false,
@@ -154,6 +162,11 @@ export default {
   },
   mounted() {
     this.userFolders()
+    if (this.$route.query.success === 'true') {
+      this.updatedFolderNotification('You successfully upgraded your plan', 'success')
+    } else if (this.$route.query.success === 'false') {
+      this.updatedFolderNotification('Payment failed', 'danger')
+    }
   },
   methods: {
     addFolder () {
@@ -242,7 +255,8 @@ export default {
         }, 10)
       } else if (this.currentFolder !== index) {
         this.showFilePreview = false
-        this.$refs.fileContainer.style.width = 'calc(100%)'
+        this.$refs.fileContainer.style.width = 'initial'
+        this.$refs.profileNavigationBar.style.width = 'initial'
         if (this.currentFolder || this.currentFolder === 0) {
           // console.log(this.currentFolder)
           // let number = JSON.parse(this.currentFolder)
@@ -258,45 +272,69 @@ export default {
       }
       await this.updateFiles()
     },
+    fileIcon (files) {
+      this.files = files.map((file) => {
+        switch (true) {
+          case ['zip', 'rar', '7z'].includes(file.type):
+            file.icon = 'Archive.svg'
+            file.imagePreview = null
+            break
+          case ['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(file.type):
+            file.icon = 'Image.svg'
+            file.imagePreview = file.file
+            break
+          case ['mp3'].includes(file.type):
+            file.icon = 'Audio.svg'
+            file.imagePreview = null
+            break
+          case ['mp4', 'mkv'].includes(file.type):
+            file.icon = 'Video.svg'
+            file.imagePreview = null
+            break
+          case ['doc', 'docx', 'rtf', 'xls', 'xlsx', 'ppt', 'pptx', 'accdb', '', ''].includes(file.type):
+            file.icon = 'Document.svg'
+            file.imagePreview = null
+            break
+          case ['pdf'].includes(file.type):
+            file.icon = 'Pdf.svg'
+            file.imagePreview = null
+            break
+          default:
+            file.icon = 'Unknown.svg'
+            file.imagePreview = null
+        }
+        return file
+      })
+    },
     async updateFiles () {
       let folderId = this.folders[this.currentFolder].id
       await this.$axios.get('/user_files/' + folderId).then((res) => {
-        this.files = res.data.data.map((file) => {
-          switch (true) {
-            case ['zip', 'rar', '7z'].includes(file.type):
-              file.icon = 'Archive.svg'
-              file.imagePreview = null
-              break
-            case ['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(file.type):
-              file.icon = 'Image.svg'
-              file.imagePreview = file.file
-              break
-            case ['mp3'].includes(file.type):
-              file.icon = 'Audio.svg'
-              file.imagePreview = null
-              break
-            case ['mp4', 'mkv'].includes(file.type):
-              file.icon = 'Video.svg'
-              file.imagePreview = null
-              break
-            case ['doc', 'docx', 'rtf', 'xls', 'xlsx', 'ppt', 'pptx', 'accdb', '', ''].includes(file.type):
-              file.icon = 'Document.svg'
-              file.imagePreview = null
-              break
-            case ['pdf'].includes(file.type):
-              file.icon = 'Pdf.svg'
-              file.imagePreview = null
-              break
-            default:
-              file.icon = 'Unknown.svg'
-              file.imagePreview = null
-          }
-          return file
-        })
+        this.fileIcon(res.data.data)
         this.showFileUploadPopup = false
       }).catch((e) => {
         console.log(e)
       })
+    },
+    async getFilteredFiles () {
+      if (!this.searchInput) {
+        await this.updateFiles()
+      } else if (this.searchDelayed) {
+        return
+      } else {
+        this.searchDelayed = true
+        setTimeout(() => {
+          console.log(this.searchInput)
+          console.log(this.$auth.$state.user.data.id)
+          this.$axios.post('/file_filter', {
+            'data': this.searchInput,
+            'user_id': this.$auth.$state.user.data.id
+          }).then((res) => {
+            this.fileIcon(res.data.data)
+            console.log(this.searchInput)
+          })
+          this.searchDelayed = false
+        }, 1000)
+      }
     },
     openPreview (file) {
       this.currentFile = file
@@ -305,8 +343,8 @@ export default {
       this.fileDeleteModal = false
       console.log(this.currentFile.deleteModal + ' open')
       this.showFilePreview = true
-      this.$refs.fileContainer.style.width = 'calc(100% - 740px)'
-      this.$refs.profileNavigationBar.style.width = 'calc(100% - 740px)'
+      this.$refs.fileContainer.style.width = 'calc(100% - 440px)'
+      this.$refs.profileNavigationBar.style.width = 'calc(100% - 440px)'
     },
     closePreview() {
       this.$refs.fileContainer.style.width = 'initial'
@@ -320,7 +358,7 @@ export default {
 <style scoped>
 .popup-container {
   position: fixed;
-  right: 0;
+  left: 0;
   bottom: 0;
   display: flex;
   flex-direction: column;
@@ -334,6 +372,7 @@ export default {
   scrollbar-color: #484C54 #00000000;
   scrollbar-width: thin;
   z-index: -5;
+  pointer-events: none;
 }
 
 .body-container {
@@ -529,7 +568,11 @@ export default {
 }
 
 .main-profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
   width: 100%;
+  margin-left: 300px;
 }
 
 .profile-navigation-bar {
@@ -540,7 +583,6 @@ export default {
   padding-left: 50px;
   height: 50px;
   margin-top: 50px;
-  margin-left: 300px;
   background-color: #5B5D62;
 }
 
@@ -560,9 +602,36 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 50px;
-  margin-left: 300px;
-  margin-top: 50px;
-  padding: 50px;
+  padding: 0px 50px 50px;
+}
+
+.search-padding {
+  padding-left: 50px;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  width: 450px !important;
+}
+
+.search-container > img {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+
+.search-container > input {
+  width: 100%;
+  padding: 10px 20px 10px 40px;
+  background-color: #484C54;
+  border-radius: 10px;
+  height: 25px;
+  font-size: 20px;
+  color: white;
+  border: none;
+  outline: none;
 }
 
 .file {

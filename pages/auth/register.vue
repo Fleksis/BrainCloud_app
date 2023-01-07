@@ -40,7 +40,7 @@
             <label class="form-label">Password</label>
           </div>
           <div class="form-name-group">
-            <input v-model="userData.confirmPassword" class="form-input password" type="password" placeholder=" " required>
+            <input v-model="userData.password_confirm" class="form-input password" type="password" placeholder=" " required>
             <label class="form-label">Repeat password</label>
           </div>
         </div>
@@ -76,7 +76,7 @@ export default {
         name: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        password_confirm: ''
       },
       blobImage: null,
       incorrectPassword: false
@@ -107,22 +107,18 @@ export default {
       const fd = new FormData()
       for (const [key, value] of Object.entries(this.userData)) { fd.append(key, value) }
 
-      if (this.userData.password === this.userData.confirmPassword) {
-        await this.$axios.post('/register', fd, {'Content-Type': 'multipart/form-data'}).then((res) => {
-          console.log(res.data)
-          this.$router.push('/auth/login')
-        }).catch((e) => {
-          for (let error in e.response.data.errors) {
-            this.$store.commit('setPopup', {
-              text: e.response.data.errors[error][0],
-              type: 'danger',
-              seconds: 5
-            })
-          }
-        })
-      } else {
-        this.incorrectPassword = true
-      }
+      await this.$axios.post('/register', fd, {'Content-Type': 'multipart/form-data'}).then((res) => {
+        console.log(res.data)
+        this.$router.push('/auth/login')
+      }).catch((e) => {
+        for (let error in e.response.data.errors) {
+          this.$store.commit('setPopup', {
+            text: e.response.data.errors[error][0],
+            type: 'danger',
+            seconds: 5
+          })
+        }
+      })
     }
   }
 }

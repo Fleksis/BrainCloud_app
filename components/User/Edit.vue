@@ -20,20 +20,25 @@
           <p>or</p>
           <label class="upload-image">
             Upload file
-            <input type="file" @change="uploadImage">
+            <input type="file" accept="image/*" @change="uploadImage">
           </label>
         </div>
         <a v-show="!displayDropZone" class="change-photo" @click="displayDropZone=true; fileName = ''">Change file</a>
       </div>
       <div>
         <div class="folder-input-container">
-          <input v-model="folderData.title" class="title-input" placeholder=" ">
-          <label class="title-label">Title</label>
+          <input v-model="userData.name" class="title-input" placeholder=" ">
+          <label class="title-label">Name</label>
         </div>
         <div class="folder-input-container">
-          <input v-model="folderData.description" class="title-input" placeholder=" ">
-          <label class="title-label">Description</label>
+          <input v-model="userData.email" class="title-input" placeholder=" ">
+          <label class="title-label">Email</label>
         </div>
+        <dropdownSelect
+          v-model="userData.subscription_type"
+          :options="subscriptions"
+          :placeholder="user.subscription_type.type"
+        />
       </div>
       <div class="folder-form-buttons">
         <button @click="$emit('close-modal')">Cancel</button>
@@ -45,35 +50,50 @@
 
 <script>
 export default {
-  name: 'AddFolder',
-  props: ['folder_id', 'folders'],
+  name: 'EditUser',
+  props: ['user'],
   data () {
     return {
-      folderData: {
-        'title': '',
-        'description': '',
-        'file': '',
-        'user_id': this.$auth.$state.user.data.id,
+      userData: {
+        'name': this.user.name,
+        'email': this.user.email,
+        'image': this.user.image,
+        'subscription_type': this.user.subscription_type.type,
       },
-      previewImage: null,
+      previewImage: this.user.image,
       dropZoneColor: null,
-      displayDropZone: true,
-      fileName: ''
+      displayDropZone: false,
+      fileName: '',
+      subscriptions: []
     }
+  },
+  updated() {
+    console.log(this.userData.subscription_type)
+  },
+  mounted() {
+    console.log(this.user)
+    this.$axios.get('/subscriptions').then((sRes) => {
+      this.subscriptions = sRes.data.data
+    }).catch((e) => {
+      alert(e.response.data.message)
+    })
   },
   methods: {
     uploadImage (e) {
+      const fileTypes = ['image/png', 'image/jpeg', 'image/jpg']
       const file = (e.target.localName === 'input') ? e.target.files[0] : e.dataTransfer.files[0]
       console.log(file)
-      if (file.size > 1000000 * 1024) {
+      if (file.size > 15000 * 1024) {
         alert('You can\'t upload file larger than 15 MB')
+        return
+      } else if (!fileTypes.includes(file.type)) {
         return
       }
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = (e) => {
         this.fileName = file.name
-        this.folderData.file = file
+        this.userData.image = file
         this.displayDropZone = false
         this.dropZoneColor = '#222222'
       }
@@ -87,23 +107,14 @@ export default {
       this.dropZoneColor = '#222222'
     },
     async uploadFile () {
-      this.folderData['folder_id'] = this.folders[this.folder_id].id
-      console.log(this.folderData)
+      console.log(this.userData)
       const fd = new FormData()
-      for (const [key, value] of Object.entries(this.folderData)) { fd.append(key, value) }
-
-      await this.$axios.post('/files', fd).then((res) => {
-        let title = this.folderData.title
-        this.folderData.title = null
-        this.folderData.description = null
-        this.folderData.file = null
-        this.fileName = null
-        this.$emit('close-and-refresh', 'File ' + title + ' successfully uploaded', 'success')
+      for (const [key, value] of Object.entries(this.userData)) { fd.append(key, value) }
+      await this.$axios.post('/users/' + this.user.id + '?_method=PUT', fd).then((res) => {
+        this.$emit('close-and-refresh', 'User ' + this.name + ' successfully deleted', 'success')
       }).catch((e) => {
-        console.log(e.response.data)
-        for (let error in e.response.data.errors) {
-          this.$emit('close-and-refresh', e.response.data.errors[error][0], 'danger')
-        }
+        alert('Nav labi bračiņ')
+        this.$emit('close-and-refresh', 'Something went wrong, try again later', 'danger')
       })
     }
   }
@@ -113,15 +124,15 @@ export default {
 <style scoped>
 .popup {
   z-index: 2;
+  height: fit-content;
   position: absolute;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  background-color: #2B2E32;
-  padding: 20px 50px;
+  background-color: #222222;
+  padding: 10px 10px;
   border-radius: 15px;
   box-shadow: 0 4px 4px #202020;
-  top: 80px;
 }
 
 #modal-title {
@@ -158,7 +169,7 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border: #111111 dashed 3px;
+  border: #484C54 dashed 3px;
   color: white;
   height: 200px;
   transition: .3s;

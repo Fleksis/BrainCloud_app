@@ -46,8 +46,8 @@ export default {
   data () {
     return {
       userData: {
-        email: null,
-        password: null
+        email: '',
+        password: ''
       },
     }
   },
@@ -60,7 +60,7 @@ export default {
         this.$auth.setUser(res.data.user)
         setTimeout(() => {
           location.reload()
-        },500)
+        },1000)
       }).catch((err) => {
         this.$store.commit('setPopup', {
           text: 'Incorrect password or email',

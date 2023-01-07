@@ -2,15 +2,15 @@
   <div>
     <div id="navigation-bar">
       <div class="navigation-bar-horizontal">
-        <div>
-          <img class="navigation-bar-logo" src="~assets/svg/Brain.svg">
+        <div @click="$router.push('/profile')" class="navigation-bar-title">
+          <img src="~assets/svg/Brain.svg">
           <h3>Brain Cloud</h3>
         </div>
         <ProfileButton />
       </div>
     </div>
     <div>
-      <Nuxt style="margin-left: 15%"/>
+      <Nuxt />
     </div>
   </div>
 </template>
@@ -18,6 +18,11 @@
 <script>
 export default {
   name: 'ProfileNavigationBar',
+  data () {
+    return {
+      searchInput: ''
+    }
+  },
   mounted() {
     if (!this.$store.state.auth.loggedIn) {
       this.$router.push('/auth/login')
@@ -51,15 +56,25 @@ export default {
   padding-left: 30px;
 }
 
-.navigation-bar-horizontal > div {
+.navigation-bar-title {
   justify-content: flex-start;
   width: fit-content;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  gap: 10px;
 }
 
-.navigation-bar-logo {
+.navigation-bar-title > img {
   width: 64px;
-  background-color: red;
+}
+
+.navigation-bar-title > h3 {
+  user-select: none;
+  margin: 0;
+  font-family: Alata;
+  color: white;
+  font-weight: normal;
+  white-space: nowrap;
 }
 </style>
