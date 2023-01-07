@@ -131,6 +131,14 @@ export default {
   },
   mounted() {
     this.getUsers()
+    this.$on('input', ($event) => {
+      console.log($event)
+    })
+  },
+  created() {
+    this.$on('input', ($event) => {
+      console.log($event)
+    })
   },
   methods: {
     async getUsers () {

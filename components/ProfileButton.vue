@@ -7,6 +7,8 @@
         <div>
           <h3>{{ $auth.$state.user.data.name }}</h3>
           <h4>{{ $auth.$state.user.data.email }}</h4>
+          <h4>{{ $auth.$state.user.data.free_space }}</h4>
+          <progress id="file" :value="userSpaceData.usedSpace" :max="userSpaceData.maxSpace" />
         </div>
       </div>
       <div class="profile-dropdown-buttons">
@@ -24,7 +26,27 @@ export default {
   data () {
     return {
       isOpenedProfile: false,
-      user: this.$auth.$state.user
+      user: this.$auth.$state.user,
+      isFetchUserTimeout: false,
+      userSpaceData: {
+        'usedSpace': 0,
+        'maxSpace': 0
+      }
+    }
+  },
+  mounted() {
+    const usersUsedSpace = this.$auth.$state.user.data.free_space.split(' / ')
+    const usersMaxSpace = usersUsedSpace[1].split(' ')
+    this.userSpaceData.usedSpace = parseFloat(usersUsedSpace[0])
+    this.userSpaceData.maxSpace = parseInt(usersMaxSpace[0])
+  },
+  updated() {
+    if (!this.isFetchUserTimeout) {
+      this.isFetchUserTimeout = true
+      setTimeout(() => {
+        this.isFetchUserTimeout = false
+      }, 5000)
+      this.$auth.fetchUser()
     }
   },
   methods: {

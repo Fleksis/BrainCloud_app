@@ -2,13 +2,13 @@
   <div>
     <div id="navigation-bar">
       <div class="navigation-bar-horizontal">
-        <div>
-          <img class="navigation-bar-logo" src="~assets/svg/Brain.svg">
+        <div @click="$router.push('/profile')" class="navigation-bar-title">
+          <img src="~assets/svg/Brain.svg">
           <h3>Brain Cloud</h3>
         </div>
         <div class="navigation-buttons">
           <NuxtLink to="/profile">Profile</NuxtLink>
-          <NuxtLink to="/profile">Subscription</NuxtLink>
+          <NuxtLink to="/upgrade_plans">Subscription</NuxtLink>
           <NuxtLink to="/profile">About Us</NuxtLink>
           <NuxtLink to="/admin/users">Admin Page</NuxtLink>
           <NuxtLink to="/profile">Help</NuxtLink>
@@ -57,16 +57,26 @@ export default {
   padding-left: 30px;
 }
 
-.navigation-bar-horizontal > div {
+.navigation-bar-title {
   justify-content: flex-start;
   width: fit-content;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  gap: 10px;
 }
 
-.navigation-bar-logo {
+.navigation-bar-title > img {
   width: 64px;
-  background-color: red;
+}
+
+.navigation-bar-title > h3 {
+  user-select: none;
+  margin: 0;
+  font-family: Alata;
+  color: white;
+  font-weight: normal;
+  white-space: nowrap;
 }
 
 .navigation-buttons {
