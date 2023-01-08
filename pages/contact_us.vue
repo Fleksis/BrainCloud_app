@@ -4,7 +4,7 @@
       <img class="svg" src="~assets/svg/ContactUsLogo.svg">
       <div class="title-card">
         <div>
-          <img src="~assets/svg/logo.svg" class="logo" alt="">
+          <img src="~assets/svg/Brain.svg" class="logo" alt="">
           <h1>Brain Cloud</h1>
         </div>
         <p>Welcome to our file storage application! With us, you can easily store and access your files from anywhere. Our platform ensures that your data is safe and protected.</p>
