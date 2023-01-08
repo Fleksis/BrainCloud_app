@@ -57,13 +57,6 @@
       </div>
     </div>
     <main class="main-profile-container">
-      <div ref="profileNavigationBar" class="profile-navigation-bar">
-        <NuxtLink to="/profile">Profile</NuxtLink>
-        <NuxtLink to="/upgrade_plans">Subscription</NuxtLink>
-        <NuxtLink to="/contact_us">About Us</NuxtLink>
-        <NuxtLink to="/admin/users">Admin Page</NuxtLink>
-        <NuxtLink to="/profile">Help</NuxtLink>
-      </div>
       <div class="search-padding">
         <div class="search-container">
           <img src="~assets/svg/Search.svg">
@@ -143,7 +136,7 @@
 <script>
 export default {
   name: 'ProfilePage',
-  layout: 'ProfileNavigationBar',
+  layout: 'UserNavigationBar',
   auth: true,
   data () {
     return {
@@ -256,7 +249,6 @@ export default {
       } else if (this.currentFolder !== index) {
         this.showFilePreview = false
         this.$refs.fileContainer.style.width = 'initial'
-        this.$refs.profileNavigationBar.style.width = 'initial'
         if (this.currentFolder || this.currentFolder === 0) {
           // console.log(this.currentFolder)
           // let number = JSON.parse(this.currentFolder)
@@ -344,11 +336,9 @@ export default {
       console.log(this.currentFile.deleteModal + ' open')
       this.showFilePreview = true
       this.$refs.fileContainer.style.width = 'calc(100% - 440px)'
-      this.$refs.profileNavigationBar.style.width = 'calc(100% - 440px)'
     },
     closePreview() {
       this.$refs.fileContainer.style.width = 'initial'
-      this.$refs.profileNavigationBar.style.width = 'initial'
       this.showFilePreview = false
     }
   }
@@ -573,17 +563,7 @@ export default {
   gap: 25px;
   width: 100%;
   margin-left: 300px;
-}
-
-.profile-navigation-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 50px;
-  padding-left: 50px;
-  height: 50px;
-  margin-top: 50px;
-  background-color: #5B5D62;
+  margin-top: 75px;
 }
 
 .profile-navigation-bar > a {
@@ -612,7 +592,7 @@ export default {
 .search-container {
   position: relative;
   display: flex;
-  width: 450px !important;
+  width: 460px !important;
 }
 
 .search-container > img {
