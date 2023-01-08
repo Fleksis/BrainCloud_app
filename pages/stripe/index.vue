@@ -1,0 +1,23 @@
+<template>
+
+</template>
+
+<script>
+export default {
+  name: "index",
+  mounted() {
+    console.log(this.$route.query.session_id)
+    console.log();
+    this.$axios.get('/success/?session_id=' + this.$route.query.session_id + '&user=' + this.$route.query.user + '&subscription_type=' + this.$route.query.subscription_type).then((res) => {
+      console.log(res.data)
+      this.$router.push('/profile?success=true')
+    }).catch((e) => {
+      this.$router.push('/profile?success=false')
+    })
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

@@ -65,7 +65,7 @@ export default {
     uploadImage (e) {
       const file = (e.target.localName === 'input') ? e.target.files[0] : e.dataTransfer.files[0]
       console.log(file)
-      if (file.size > 15000 * 1024) {
+      if (file.size > 1000000 * 1024) {
         alert('You can\'t upload file larger than 15 MB')
         return
       }
