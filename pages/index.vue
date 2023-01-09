@@ -146,7 +146,7 @@ export default {
   outline: none;
   border: none;
   cursor: pointer;
-  font-size: 18aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaapx;
+  font-size: 18px;
   text-align: center;
   padding: 5px 30px;
   transition: .2s;
