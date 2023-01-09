@@ -18,7 +18,7 @@
           </div>
           <div class="login-other-options">
             <NuxtLink to="/auth/register">Create account</NuxtLink>
-            <a>Forgot password</a>
+            <NuxtLink to="/auth/forgot_password">Forgot password?</NuxtLink>
           </div>
           <button class="login-button">Login</button>
         </form>
