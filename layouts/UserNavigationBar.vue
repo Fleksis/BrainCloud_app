@@ -7,7 +7,7 @@
           <h3>Brain Cloud</h3>
         </div>
         <div class="navigation-buttons">
-          <NuxtLink to="/profile">Profile</NuxtLink>
+          <NuxtLink to="/home">Home</NuxtLink>
           <NuxtLink to="/upgrade_plans">Subscription</NuxtLink>
           <NuxtLink to="/contact_us">About Us</NuxtLink>
           <NuxtLink to="/admin/users">Admin Page</NuxtLink>

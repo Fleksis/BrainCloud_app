@@ -22,23 +22,26 @@
       </div>
       <img src="~assets/svg/Hero_title.svg">
     </div>
-    <div>
+    <div class="instant-access-container">
+      <img src="~assets/svg/Hero_time.svg">
       <div class="instant-access">
-        <img src="~assets/svg/Hero_time.svg">
-        <div class="title-text">
+        <div class="instant-access-text">
           <h1><span>Instant Access </span>for your files</h1>
           <h2>Our file storage application provides instant access to your files from any device. No more waiting for files to load or transfer.</h2>
         </div>
-        <div class="title-buttons">
-          <button>Create Account</button>
-          <h3>or</h3>
-          <button>Already have?</button>
-        </div>
       </div>
     </div>
-    <div>
-      <div></div>
-      <div></div>
+    <div class="title-container">
+      <div class="title">
+        <div class="title-text">
+          <h1>The Value of Reliability <span>Reliability</span></h1>
+          <h2>At our file storage service, we understand the importance of reliability. We work hard to ensure that our platform is always available when you need it, so you can access your files with confidence.</h2>
+        </div>
+        <div class="title-buttons">
+          <button>Create Account</button>
+        </div>
+      </div>
+      <img src="~assets/svg/Hero_layout.svg">/
     </div>
     <div></div>
   </div>
@@ -164,5 +167,29 @@ export default {
 
 .title-container > img {
   height: 380px;
+}
+
+.instant-access-container {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.instant-access {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.instant-access-text {
+  font-family: Alata;
+  color: white;
+}
+
+.instant-access-text > h1 > span {
+  color: #6C63FF;
 }
 </style>
