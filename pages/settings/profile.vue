@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="btn-field">
-          <NuxtLink to="/profile">
+          <NuxtLink to="/home">
             <p>Cancel</p>
           </NuxtLink>
           <button type="button" @click="updateUser()">Save</button>
@@ -91,7 +91,7 @@ export default {
       await this.$axios.post('/users/' + this.user.id + '?_method=PUT', fd).then((res) => {
         alert('Dati saglabāti')
         this.$auth.setUser(res.data)
-        this.$router.push('/profile')
+        this.$router.push('/home')
       }).catch((e) => {
         alert('Nav labi bračiņ')
       })

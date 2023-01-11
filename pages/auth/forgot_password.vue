@@ -38,7 +38,7 @@ export default {
   },
   mounted() {
     if (this.$auth.loggedIn) {
-      this.$router.push('/profile')
+      this.$router.push('/home')
     }
   },
   methods: {

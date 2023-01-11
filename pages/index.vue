@@ -1,29 +1,37 @@
 <template>
   <div class="container">
-<!--    <img src="assets/svg/">-->
     <div class="navigation-bar">
       <h2>Brain Cloud</h2>
-      <div>
-        <h3>Register</h3>
-        <h3>Login</h3>
+      <div v-if="$auth.loggedIn">
+        <NuxtLink to="/home">Go to profile</NuxtLink>
+      </div>
+      <div v-else>
+        <NuxtLink to="/auth/register">Register</NuxtLink>
+        <NuxtLink to="/auth/login">login</NuxtLink>
       </div>
     </div>
     <div class="title-container">
+      <img class="text-background" src="~assets/svg/Hero_title_background.svg">
       <div class="title">
         <div class="title-text">
           <h1>We provide <span>reliable file storage</span></h1>
           <h2>Need secure file storage? Get up to 20 Gb of free storage by signing up today.</h2>
         </div>
-        <div class="title-buttons">
-          <button>Create Account</button>
+        <div v-if="$auth.loggedIn" class="title-buttons">
+          <NuxtLink to="/home" >Go to profile</NuxtLink>
+        </div>
+        <div v-else class="title-buttons">
+          <NuxtLink to="/auth/register" >Create an Account</NuxtLink>
           <h3>or</h3>
-          <button>Already have?</button>
+          <NuxtLink to="/auth/login" >Already have one?</NuxtLink>
         </div>
       </div>
       <img src="~assets/svg/Hero_title.svg">
     </div>
     <div class="instant-access-container">
-      <img src="~assets/svg/Hero_time.svg">
+      <div>
+        <img src="~assets/svg/Hero_time.svg">
+      </div>
       <div class="instant-access">
         <div class="instant-access-text">
           <h1><span>Instant Access </span>for your files</h1>
@@ -32,24 +40,75 @@
       </div>
     </div>
     <div class="title-container">
+      <img class="text-background" src="~assets/svg/Hero_title_background_2.svg">
       <div class="title">
         <div class="title-text">
           <h1>The Value of Reliability <span>Reliability</span></h1>
-          <h2>At our file storage service, we understand the importance of reliability. We work hard to ensure that our platform is always available when you need it, so you can access your files with confidence.</h2>
-        </div>
-        <div class="title-buttons">
-          <button>Create Account</button>
+          <h2>Reliability is a key value for our file storage service. We strive to ensure that our platform is always available for accessing your files.</h2>
         </div>
       </div>
-      <img src="~assets/svg/Hero_layout.svg">/
+      <img src="~assets/svg/Hero_layout.svg">
     </div>
-    <div></div>
+    <div class="plans">
+      <Plan
+        v-for="(plan, index) of plans"
+        :key="index"
+        :title=plan.title
+        :description="plan.description"
+        :list="plan.list"
+        :price=plan.price
+        :isAvalible=plan.isAvailable
+        :diskSpace=plan.diskSpace
+        :color="plan.color"
+      />
+    </div>
+    <div class="support">
+      <div>
+        <h1>Do you still have questions?</h1>
+        <h2>Submit your remaining questions and our support team will assist you. We're here to help.</h2>
+      </div>
+      <ContactUsForm />
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'IndexPage',
+  auth: false,
+  data() {
+    return {
+      plans: [
+        {
+          title: 'Basic',
+          description: 'You have to buy, to get more storage with no minimal file size or max file size',
+          list: ['50 GB storage', 'Create up to 10 folders', 'Upload up to 20 files per folder', 'Min upload: 10mb', 'Max upload: 100bmb'],
+          price: 9.99,
+          isAvailable: false,
+          diskSpace: '50 GB',
+          color: 'green'
+        },
+        {
+          title: 'Extra',
+          description: 'More storage, no more limits for the number of files and folders',
+          list: ['100 GB storage', 'Create up to 20 folders', 'Upload up to 20 files per folder', 'Min upload: 10mb', 'Max upload: 500mb'],
+          price: 14.99,
+          isAvailable: false,
+          diskSpace: '100 GB',
+          color: 'orange'
+        },
+        {
+          title: 'Rugged storage',
+          description: 'Five times more storage than plan Extra and no more limitations',
+          list: ['No limitations!', '500 GB storage'],
+          price: 19.99,
+          isAvailable: false,
+          diskSpace: '500 GB',
+          color: 'red'
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -84,27 +143,41 @@ export default {
 
 .navigation-bar > div {
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 
-.navigation-bar > div > h3 {
+.navigation-bar > div > a {
   color: white;
   margin: 0;
   font-weight: normal;
+  text-decoration: none;
   cursor: pointer;
+  font-size: 20px;
+  transition: 0.3s;
 }
 
-.navigation-bar > div > h3:hover {
+.navigation-bar > div > a:hover {
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
 }
 
 .title-container {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-left: 50px;
   padding-right: 50px;
   font-family: Alata;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.title-container > .text-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
 .title {
@@ -124,7 +197,7 @@ export default {
 }
 
 .title-text > h2 {
-  width: 70%;
+  width: 55%;
   font-weight: normal;
 }
 
@@ -142,7 +215,7 @@ export default {
   color: white;
 }
 
-.title-buttons > button {
+.title-buttons > a {
   background-color: #484c54;
   border-radius: 5px;
   color: white;
@@ -153,13 +226,14 @@ export default {
   text-align: center;
   padding: 5px 30px;
   transition: .2s;
+  text-decoration: none;
 }
 
-.title-buttons > button:first-child {
+.title-buttons > a:first-child {
   background-color: #6C63FF;
 }
 
-.title-buttons > button:hover {
+.title-buttons > a:hover {
   background-color: #2b2e32;
   outline: 2px solid #6C63FF;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -174,6 +248,16 @@ export default {
   justify-content: space-between;
   padding-left: 50px;
   padding-right: 50px;
+}
+
+.instant-access-container > div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.instant-access-container > div > img {
+  height: 380px;
 }
 
 .instant-access {
@@ -191,5 +275,39 @@ export default {
 
 .instant-access-text > h1 > span {
   color: #6C63FF;
+}
+
+.plans {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  font-family: Alata;
+}
+
+.plans > div:nth-child(2) {
+  margin-top: -40px;
+  margin-bottom: 40px;
+}
+
+.support {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  margin-bottom: 50px;
+}
+.support > div {
+  width: 430px;
+  font-family: Alata;
+}
+
+.support > div > h1 {
+  color: #6C63FF;
+}
+
+.support > div > h2 {
+  color: white;
+  font-weight: normal;
 }
 </style>
