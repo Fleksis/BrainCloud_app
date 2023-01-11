@@ -10,9 +10,11 @@
         :key="index"
         :title=tariff.title
         :description="tariff.description"
+        :list="tariff.list"
         :price=tariff.price
         :isAvalible=tariff.isAvailable
         :diskSpace=tariff.diskSpace
+        :color="tariff.color"
       />
     </div>
   </div>
@@ -29,30 +31,38 @@ export default {
         {
           title: 'Free',
           description: 'Free plan, where you have only 20 gigabytes of storage with some limitations',
+          list: ['20 GB storage', 'Create up to 20 folders', 'Upload up to 10 files per folder', 'Min upload: 20mb', 'Max upload: 50bmb'],
           price: 0.00,
           isAvailable: true,
-          diskSpace: '20 GB'
+          diskSpace: '20 GB',
+          color: 'purple'
         },
         {
           title: 'Basic',
           description: 'You have to buy, to get more storage with no minimal file size or max file size',
+          list: ['50 GB storage', 'Create up to 10 folders', 'Upload up to 20 files per folder', 'Min upload: 10mb', 'Max upload: 100bmb'],
           price: 9.99,
           isAvailable: false,
-          diskSpace: '50 GB'
+          diskSpace: '50 GB',
+          color: 'green'
         },
         {
           title: 'Extra',
           description: 'More storage, no more limits for the number of files and folders',
+          list: ['100 GB storage', 'Create up to 20 folders', 'Upload up to 20 files per folder', 'Min upload: 10mb', 'Max upload: 500mb'],
           price: 14.99,
           isAvailable: false,
-          diskSpace: '100 GB'
+          diskSpace: '100 GB',
+          color: 'orange'
         },
         {
           title: 'Rugged storage',
-          description: 'five times more storage than plan Extra and no more limitations',
+          description: 'Five times more storage than plan Extra and no more limitations',
+          list: ['No limitations!', '50 GB storage'],
           price: 19.99,
           isAvailable: false,
-          diskSpace: '500 GB'
+          diskSpace: '500 GB',
+          color: 'red'
         }
       ]
     }
@@ -79,6 +89,7 @@ export default {
   height: 70%;
   margin-inline: auto;
   font-family: Alata;
+  min-height: 660px;
 }
 
 .title {
@@ -105,7 +116,7 @@ export default {
   gap: 20px;
 }
 
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1500px) {
   .container {
     height: initial;
     top: 80%;

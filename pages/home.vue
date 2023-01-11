@@ -135,7 +135,7 @@
 
 <script>
 export default {
-  name: 'ProfilePage',
+  name: 'HomePage',
   layout: 'UserNavigationBar',
   auth: true,
   data () {
@@ -563,7 +563,10 @@ export default {
   gap: 25px;
   width: 100%;
   margin-left: 300px;
+<<<<<<< HEAD:pages/home.vue
+=======
   margin-top: 75px;
+>>>>>>> 2451f519962d047906b961cf5d53dbbcc19f6b82:pages/profile.vue
 }
 
 .profile-navigation-bar > a {
@@ -587,6 +590,7 @@ export default {
 
 .search-padding {
   padding-left: 50px;
+  margin-top: 75px;
 }
 
 .search-container {

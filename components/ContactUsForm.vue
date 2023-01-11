@@ -20,6 +20,10 @@
       <label>Description</label>
       <textarea class="input-field description" placeholder="Enter Description"></textarea>
     </div>
+    <div class="submit-form">
+      <button >Submit</button>
+    </div>
+
   </div>
 </template>
 
@@ -37,6 +41,7 @@ export default {
   border-top: 5px solid #6C63FF;
   border-radius: 20px;
   background-color: #222222;
+  font-family: Alata;
 }
 
 .input-field {
@@ -96,5 +101,32 @@ input:focus {
 
 .description:focus {
   outline: solid 2px #6C63FF;
+}
+
+.submit-form {
+  width: 200%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.submit-form > button {
+  background-color: #6C63FF;
+  border-radius: 5px;
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px 30px;
+  transition: .2s;
+  text-decoration: none;
+}
+
+.submit-form > button:hover {
+  background-color: #2b2e32;
+  outline: 2px solid #6C63FF;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 </style>
