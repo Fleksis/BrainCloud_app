@@ -89,10 +89,13 @@ export default {
     async uploadFile () {
       this.folderData['folder_id'] = this.folders[this.folder_id].id
       console.log(this.folderData)
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' }
+      }
       const fd = new FormData()
       for (const [key, value] of Object.entries(this.folderData)) { fd.append(key, value) }
 
-      await this.$axios.post('/files', fd).then((res) => {
+      await this.$axios.post('/files', fd, config).then((res) => {
         let title = this.folderData.title
         this.folderData.title = null
         this.folderData.description = null
@@ -100,6 +103,8 @@ export default {
         this.fileName = null
         this.$emit('close-and-refresh', 'File ' + title + ' successfully uploaded', 'success')
       }).catch((e) => {
+        console.log(e)
+        console.log(e.response)
         console.log(e.response.data)
         for (let error in e.response.data.errors) {
           this.$emit('close-and-refresh', e.response.data.errors[error][0], 'danger')

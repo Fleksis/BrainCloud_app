@@ -587,7 +587,6 @@ export default {
 
 .search-padding {
   padding-left: 50px;
-  margin-top: 75px;
 }
 
 .search-container {
