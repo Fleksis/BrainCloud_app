@@ -72,7 +72,7 @@ export default {
   },
   mounted() {
     console.log(this.user)
-    this.$axios.get('/subscriptions').then((sRes) => {
+    this.$axios.get('/plans').then((sRes) => {
       this.subscriptions = sRes.data.data
     }).catch((e) => {
       alert(e.response.data.message)
