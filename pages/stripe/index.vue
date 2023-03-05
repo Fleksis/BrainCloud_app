@@ -13,9 +13,10 @@ export default {
       setTimeout(() => {
         this.$auth.fetchUser()
       }, 1000)
-      this.$router.push('/home?success=true')
+      // this.$router.push('/home?success=true')
     }).catch((e) => {
-      this.$router.push('/home?success=false')
+      console.log(e)
+      // this.$router.push('/home?success=false')
     })
   }
 }

@@ -58,7 +58,7 @@ export default {
         {
           title: 'Rugged storage',
           description: 'Five times more storage than plan Extra and no more limitations',
-          list: ['No limitations!', '50 GB storage'],
+          list: ['No limitations!', '500 GB storage'],
           price: 19.99,
           isAvailable: false,
           diskSpace: '500 GB',

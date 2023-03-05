@@ -11,7 +11,7 @@
           <NuxtLink to="/upgrade_plans">Subscription</NuxtLink>
           <NuxtLink to="/contact_us">About Us</NuxtLink>
           <NuxtLink to="/admin/users">Admin Page</NuxtLink>
-          <NuxtLink to="/home">Help</NuxtLink>
+          <NuxtLink to="/help">Help</NuxtLink>
         </div>
         <ProfileButton />
       </div>
