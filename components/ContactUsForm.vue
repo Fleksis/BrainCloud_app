@@ -1,35 +1,50 @@
 <template>
-  <div class="form-container">
+  <form class="form-container" @submit.prevent="senSupportMessage()">
     <div class="form-section">
       <label>First name</label>
-      <input class="input-field" placeholder="Enter First name">
+      <input v-model="supportForm.first_name" class="input-field" placeholder="Enter First name">
     </div>
     <div class="form-section">
       <label>Last name</label>
-      <input class="input-field" placeholder="Enter Last name">
+      <input v-model="supportForm.last_name" class="input-field" placeholder="Enter Last name">
     </div>
     <div class="form-section double">
       <label>Email</label>
-      <input class="input-field" placeholder="Enter Email">
-    </div>
-    <div class="form-section double">
-      <label>Topic</label>
-      <input class="input-field" placeholder="Enter Topic">
+      <input v-model="supportForm.email" class="input-field" placeholder="Enter Email">
     </div>
     <div class="form-section double">
       <label>Description</label>
-      <textarea class="input-field description" placeholder="Enter Description"></textarea>
+      <textarea v-model="supportForm.description" class="input-field description" placeholder="Enter Description"></textarea>
     </div>
     <div class="submit-form">
-      <button >Submit</button>
+      <button type="submit">Submit</button>
     </div>
-
-  </div>
+  </form>
 </template>
 
 <script>
 export default {
-  name: "ContactUsForm"
+  name: "ContactUsForm",
+  data() {
+    return {
+      supportForm: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        topic_id: 1,
+        description: '',
+      }
+    }
+  },
+  methods: {
+    async senSupportMessage() {
+      await this.$axios.post('/supports', this.supportForm ).then((res) => {
+        alert('Message to support has been sent')
+      }).catch((err) => {
+        alert('Something went wrong, try again later!')
+      })
+    }
+  }
 }
 </script>
 
