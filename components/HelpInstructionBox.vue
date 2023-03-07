@@ -1,7 +1,7 @@
 <template>
   <div class="instruction-container">
     <div class="step-name">
-      <h2>{{ title }}</h2>
+      <h2 :id="header">{{ title }}</h2>
     </div>
     <div class="instruction-part">
       <div class="step-description">
@@ -24,7 +24,17 @@
 <script>
 export default {
   name: "helpInstructionBox",
-  props: ['title','description','steps']
+  props: ['title', 'header','description','steps'],
+  // data() {
+  //   return {
+  //   }
+  // },
+  // mounted() {
+  //   if (this.$store.state.auth.loggedIn && this.$auth.$state.user.data.role[0] === 'Main Administrator') {
+  //   } else {
+  //     console.log('guest')
+  //   }
+  // }
 }
 </script>
 
