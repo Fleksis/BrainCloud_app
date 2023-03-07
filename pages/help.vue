@@ -18,6 +18,17 @@
         ]"
       />
       <HelpInstructionBox
+        v-show="isLoggedIn"
+        title="Login"
+        description="To use BrainCloud, the user needs to log into their account."
+        :steps="[
+          'Go to Log In page',
+          'In the field Email, the user needs to enter their email.',
+          'In the field Password, user needs to enter their password.',
+          'To complete login, user needs to press the Log In button.'
+        ]"
+      />
+      <HelpInstructionBox
         v-show="isAdmin"
         title="Admin page"
         description="Ability to see all the users, change their data, upgrade their subscription and delete them. "
@@ -194,7 +205,7 @@ export default {
   data() {
     return {
       isAdmin: false,
-      isLoggedin: false
+      isLoggedIn: false
     }
   },
   mounted() {
