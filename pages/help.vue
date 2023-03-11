@@ -227,6 +227,11 @@ export default {
     } else if(!this.$store.state.auth.loggedIn) {
       this.isLoggedIn = true
     }
+  },
+  methods: {
+    scrollToTop() {
+      // Kad uzspiež uz pogas, kura atradīsies apakšējā labajā stūrī, tad lietotāju pārmetīs ar transition atpakaļ uz augšu.
+    }
   }
 }
 </script>
@@ -236,8 +241,6 @@ export default {
   margin-top: 100px;
   width: 70%;
   margin-inline: auto;
-  display: flex;
-  justify-content: center;
   gap: 100px;
 }
 
@@ -245,6 +248,8 @@ export default {
   width: fit-content;
   color: white;
   font-family: Alata;
+  position: fixed;
+  height: fit-content;
 }
 
 .navigation > h2 {
