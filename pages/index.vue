@@ -19,11 +19,13 @@
         </div>
         <div v-if="$auth.loggedIn" class="title-buttons">
           <NuxtLink to="/home" >Go to profile</NuxtLink>
+          <h1 class="help-button" @click="$router.push('/help')">?</h1>
         </div>
         <div v-else class="title-buttons">
           <NuxtLink to="/auth/register" >Create an Account</NuxtLink>
           <h3>or</h3>
           <NuxtLink to="/auth/login" >Already have one?</NuxtLink>
+          <h1 class="help-button" @click="$router.push('/help')">?</h1>
         </div>
       </div>
       <img src="~assets/svg/Hero_title.svg">
@@ -113,6 +115,23 @@ export default {
 </script>
 
 <style scoped>
+.help-button {
+  color: white;
+  border: solid 3px #6C63FF;
+  height: 45px;
+  width: 45px;
+  flex-shrink: 0;
+  text-align: center;
+  border-radius: 50%;
+  transition: 0.2s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.help-button:hover {
+  transform: scale(1.2);
+}
+
 .container {
   display: flex;
   flex-direction: column;
