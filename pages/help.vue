@@ -1,14 +1,20 @@
 <template>
   <div class="container">
     <div class="navigation">
-      <HelpNavigationHeader title="Admin"/>
-      <HelpNavigationHeader title="Register"/>
-      <HelpNavigationHeader title="Login"/>
+      <HelpNavigationHeader v-show="isLoggedIn" title="Register" header="register"/>
+      <HelpNavigationHeader v-show="isLoggedIn" title="Login" header="login"/>
+      <HelpNavigationHeader v-show="isAdmin" title="Admin" header="admin"/>
+      <HelpNavigationHeader title="About us" header="aboutUs"/>
+      <HelpNavigationHeader title="Folder" header="folder"/>
+      <HelpNavigationHeader title="File" header="file"/>
+      <HelpNavigationHeader title="Subscription" header="subscription"/>
+      <HelpNavigationHeader title="Personal data update" header="userUpdate"/>
     </div>
     <div class="instructions">
       <HelpInstructionBox
         v-show="isLoggedIn"
-        title="Reģistrācija "
+        header="register"
+        title="Reģistrācija"
         description='Lai reģistrētos, dodieties uz mūsu vietni un uzreiz pirmajā lapā "Home" augšējā labajā stūrī redzēsiet uzrakstu "Register", virziet kursoru virs tā un noklikšķiniet , tad, atvērsies jauna lapu ar formu centrā, kas jāaizpilda lai veiksmīgi reģistrēties. '
         :steps="[
           'Full name or username laukā jums ir jāieraksta savs pilns vārds (vārds, uzvārds) vai jāizdomā savs lietotājvārds, taču, lūdzu, ņemiet vērā, ka jūs nevarat izmantot esošu lietotājvārdu.',
@@ -19,6 +25,7 @@
       />
       <HelpInstructionBox
         v-show="isLoggedIn"
+        header="login"
         title="Login"
         description="To use BrainCloud, the user needs to log into their account."
         :steps="[
@@ -30,6 +37,7 @@
       />
       <HelpInstructionBox
         v-show="isAdmin"
+        header="admin"
         title="Admin page"
         description="Ability to see all the users, change their data, upgrade their subscription and delete them. "
       />
@@ -63,6 +71,7 @@
       />
       <HelpInstructionBox
         title="About us"
+        header="aboutUs"
         description="In about us you can try contacting us and see what we consider our core values. "
       />
       <HelpInstructionBox
@@ -76,6 +85,7 @@
       />
       <HelpInstructionBox
         title="Folder"
+        header="folder"
         description="Folders are usually needed to group files, but for us folders are needed to start uploading files to ‘Brain-cloud’. They are a renamable way to organize files with an option to make up to 20 folders for the Free plan."
       />
       <HelpInstructionBox
@@ -101,6 +111,7 @@
       />
       <HelpInstructionBox
         title="Files"
+        header="file"
         description="You can choose a folder where you want to upload the file. There is an option to upload a file through file explorer or by dragging in the file. Search for your file, by opening the folder where your file is saved, and typing the name or description of the file. Clicking on a file you can see its data like its title, description, upload data, size. Also clicking on a file you can download, rename or delete it."
       />
       <HelpInstructionBox
@@ -155,6 +166,7 @@
       />
       <HelpInstructionBox
         title="Subscription"
+        header="subscription"
         description="For subscription there are 4 types of plans Free/Basic/Extra/Rugged storage. Each of them can provide benefits like more storage, options to create more folders and files while uploding bigger files. You are automatically subscribed to the Free option. To upgrade your abilities, you can choose to buy a plan for a respective price of 9.99/14.99/19.99 €."
       />
       <HelpInstructionBox
@@ -169,6 +181,7 @@
       />
       <HelpInstructionBox
         title="Personal data update"
+        header="userUpdate"
         description="With account settings you can refresh your picture, username, email and password."
       />
       <HelpInstructionBox
@@ -214,6 +227,11 @@ export default {
     } else if(!this.$store.state.auth.loggedIn) {
       this.isLoggedIn = true
     }
+  },
+  methods: {
+    scrollToTop() {
+      // Kad uzspiež uz pogas, kura atradīsies apakšējā labajā stūrī, tad lietotāju pārmetīs ar transition atpakaļ uz augšu.
+    }
   }
 }
 </script>
@@ -223,8 +241,6 @@ export default {
   margin-top: 100px;
   width: 70%;
   margin-inline: auto;
-  display: flex;
-  justify-content: center;
   gap: 100px;
 }
 
@@ -232,6 +248,8 @@ export default {
   width: fit-content;
   color: white;
   font-family: Alata;
+  position: fixed;
+  height: fit-content;
 }
 
 .navigation > h2 {
@@ -241,5 +259,11 @@ export default {
 
 .navigation > h2:hover {
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.instructions {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 </style>

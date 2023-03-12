@@ -1,11 +1,16 @@
 <template>
-  <h2>{{ title }}</h2>
+  <h2 @click="redirect()">{{ title }}</h2>
 </template>
 
 <script>
 export default {
   name: "HelpNavigationHeader",
-  props: ['title']
+  props: ['title', 'header'],
+  methods: {
+    redirect() {
+      window.location.href = window.location.origin + '/help' + '#' + this.header
+    }
+  }
 }
 </script>
 
