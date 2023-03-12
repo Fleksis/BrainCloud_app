@@ -206,6 +206,9 @@
         ]"
       />
     </div>
+    <div class="upbutton">
+      <img src="~assets/svg/arrow-up.svg" @click="scrollToTop">
+    </div>
   </div>
 </template>
 
@@ -230,7 +233,7 @@ export default {
   },
   methods: {
     scrollToTop() {
-      // Kad uzspiež uz pogas, kura atradīsies apakšējā labajā stūrī, tad lietotāju pārmetīs ar transition atpakaļ uz augšu.
+      window.scrollTo(0,0);
     }
   }
 }
@@ -266,4 +269,33 @@ export default {
   flex-direction: column;
   gap: 30px;
 }
+
+.upbutton {
+  display: flex;
+  z-index: 10;
+  position: fixed;
+  top: 90%;
+  right: 15%;
+  justify-content: end;
+  padding-bottom: 50px;
+}
+
+.upbutton > img {
+  padding: 5px;
+  color: white;
+  border: solid 3px #6C63FF;
+  height: 45px;
+  width: 45px;
+  flex-shrink: 0;
+  text-align: center;
+  border-radius: 50%;
+  transition: 0.2s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.upbutton > img:hover {
+  transform:scale(1.2);
+}
+
 </style>
